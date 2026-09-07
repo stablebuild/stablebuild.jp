@@ -1,0 +1,8 @@
+# GitHub Pages builds with Jekyll so these files can live in the repo without
+# being published. Every page here is plain HTML with no front matter, which
+# Jekyll copies verbatim rather than rendering.
+exclude:
+  - CLAUDE.md
+  - blog/build.py
+  - blog/_posts
+  - blog/_template
