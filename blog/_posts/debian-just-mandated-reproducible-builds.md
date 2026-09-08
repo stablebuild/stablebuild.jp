@@ -6,9 +6,9 @@ description: DebianはDebian 14「Forky」から、再現可能なパッケー�
 en_url: https://www.stablebuild.com/blog/debian-just-mandated-reproducible-builds
 ---
 
-Debianの開発チームは、[Debianが再現可能なパッケージを提供しなければならない](https://www.phoronix.com/news/Debian-Must-Ship-Reproducible)ことを決定しました。この方針はDebian 14「Forky」から適用されます。
+Debianの開発チームは、[すべてのパッケージを再現可能な形で提供する](https://www.phoronix.com/news/Debian-Must-Ship-Reproducible)ことを決定しました。この方針はDebian 14「Forky」から適用されます。
 
-Debianがこの決定を下したことは素晴らしいことだと考えています。StableBuildが目指している方向とも一致しています。
+Debianがこの決定を下したのは素晴らしいことだと考えています。StableBuildが目指している方向とも一致しています。
 
 とはいえ、Debianがこの方針を徹底したとしても、*すべての*パッケージが再現可能になるとは考えにくく、さまざまな理由で対応から漏れるパッケージは必ず出てくるでしょう。
 
