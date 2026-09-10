@@ -100,34 +100,34 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <p>もし1つでも心当たりがあるなら、次に気になるのは「StableBuildが実際に何を保存できるのか？」でしょう。</p>
 <h2>StableBuildが実際に保存・保護するもの</h2>
 <p>StableBuildは現在、主に4つの依存関係領域をカバーしています。</p>
-<table style="width: 100%; border-collapse: collapse; text-align: left; font-family: inherit">
+<table style="width: 100%; border-collapse: collapse; text-align: left; font-family: inherit; margin-bottom: 24px">
 <thead>
 <tr style="border-bottom: 2px solid #e2e8f0">
-<th align="left">依存関係の領域</th>
-<th align="left">StableBuildが保存するもの</th>
-<th align="left">従来チームが頼りがちだった代替策</th>
+<th style="padding: 12px 16px; font-weight: 600; white-space: nowrap">依存関係の領域</th>
+<th style="padding: 12px 16px; font-weight: 600">StableBuildが保存するもの</th>
+<th style="padding: 12px 16px; font-weight: 600">従来チームが頼りがちだった代替策</th>
 </tr>
 </thead>
 <tbody>
 <tr style="border-bottom: 1px solid #edf2f7">
-<td align="left"><strong>コンテナイメージ</strong></td>
-<td align="left">DockerおよびOCIイメージ（変更不可能な状態で保存）</td>
-<td align="left">Docker Hubへの直接接続、自前のプライベートDockerレジストリ、その他のレジストリプロキシ</td>
+<td style="padding: 12px 16px; white-space: nowrap"><strong>コンテナイメージ</strong></td>
+<td style="padding: 12px 16px">DockerおよびOCIイメージ（変更不可能な状態で保存）</td>
+<td style="padding: 12px 16px">Docker Hubへの直接接続、自前のプライベートDockerレジストリ、その他のレジストリプロキシ</td>
 </tr>
 <tr style="border-bottom: 1px solid #edf2f7">
-<td align="left"><strong>OSパッケージ</strong></td>
-<td align="left">過去のUbuntu、Debian、Alpineパッケージ</td>
-<td align="left">ライブ状態のapt/apkリポジトリ、または自前で維持するミラー</td>
+<td style="padding: 12px 16px; white-space: nowrap"><strong>OSパッケージ</strong></td>
+<td style="padding: 12px 16px">過去のUbuntu、Debian、Alpineパッケージ</td>
+<td style="padding: 12px 16px">ライブ状態のapt/apkリポジトリ、または自前で維持するミラー</td>
 </tr>
 <tr style="border-bottom: 1px solid #edf2f7">
-<td align="left"><strong>Pythonパッケージ</strong></td>
-<td align="left">過去のPyPIパッケージおよびその依存関係</td>
-<td align="left">パブリックなPyPI、または自前のパッケージプロキシ</td>
+<td style="padding: 12px 16px; white-space: nowrap"><strong>Pythonパッケージ</strong></td>
+<td style="padding: 12px 16px">過去のPyPIパッケージおよびその依存関係</td>
+<td style="padding: 12px 16px">パブリックなPyPI、または自前のパッケージプロキシ</td>
 </tr>
 <tr>
-<td align="left"><strong>外部ファイル</strong></td>
-<td align="left">URLから取得されるファイル</td>
-<td align="left">curl、wget、リリースサーバー、任意の外部URL</td>
+<td style="padding: 12px 16px; white-space: nowrap"><strong>外部ファイル</strong></td>
+<td style="padding: 12px 16px">URLから取得されるファイル</td>
+<td style="padding: 12px 16px">curl、wget、リリースサーバー、任意の外部URL</td>
 </tr>
 </tbody>
 </table>

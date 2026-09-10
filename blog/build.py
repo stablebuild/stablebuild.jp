@@ -10,6 +10,7 @@ Requires the `markdown` package.
 import argparse
 import datetime
 import html
+import itertools
 import pathlib
 import re
 import sys
@@ -37,11 +38,13 @@ INDEX_DESCRIPTION = (f'{BRAND} は、Docker、Python、Debian、Ubuntu、カス�
 # Webflow's rich text does not style tables, so the English posts carry these
 # inline styles. Markdown tables get the same treatment for a consistent look.
 TABLE_STYLES = {
-    'table': 'width: 100%; border-collapse: collapse; text-align: left; font-family: inherit',
+    'table': 'width: 100%; border-collapse: collapse; text-align: left; font-family: inherit;'
+             ' margin-bottom: 24px',
     'thead_tr': 'border-bottom: 2px solid #e2e8f0',
     'th': 'padding: 12px 16px; font-weight: 600',
     'tr': 'border-bottom: 1px solid #edf2f7',
     'td': 'padding: 12px 16px',
+    'label_cell': 'white-space: nowrap',
 }
 
 REQUIRED = ('title', 'date', 'description')
@@ -88,10 +91,29 @@ def jp_date(date):
 
 
 def style_tables(body):
-    """Add the inline table styles Webflow's rich text expects."""
+    """Add the inline table styles Webflow's rich text expects.
+
+    The first column carries the row label, so it is kept on one line: Japanese
+    breaks between any two characters, which otherwise splits コンテナイメージ
+    across lines and squeezes the column to almost nothing.
+    """
     body = body.replace('<table>', f'<table style="{TABLE_STYLES["table"]}">')
-    body = body.replace('<th>', f'<th style="{TABLE_STYLES["th"]}">')
-    body = body.replace('<td>', f'<td style="{TABLE_STYLES["td"]}">')
+
+    def row(match):
+        column = itertools.count()
+
+        def cell(m):
+            tag, attrs = m.group(1), m.group(2)
+            style = TABLE_STYLES[tag]
+            if next(column) == 0:
+                style += f'; {TABLE_STYLES["label_cell"]}'
+            # an alignment row in the Markdown puts the column alignment on the cell
+            align = re.search(r'align="([a-z]+)"|text-align:\s*([a-z]+)', attrs)
+            if align:
+                style += f'; text-align: {align.group(1) or align.group(2)}'
+            return f'<{tag} style="{style}">'
+        return re.sub(r'<(th|td)\b([^>]*)>', cell, match.group(0))
+    body = re.sub(r'<tr>.*?</tr>', row, body, flags=re.S)
 
     def head(match):
         return match.group(0).replace('<tr>', f'<tr style="{TABLE_STYLES["thead_tr"]}">')
