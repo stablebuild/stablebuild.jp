@@ -48,6 +48,15 @@
   </url>
 
   <url>
+    <loc>https://stablebuild.jp/blog/reproducible-builds-when-dependencies-disappear</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://stablebuild.jp/blog/reproducible-builds-when-dependencies-disappear"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.stablebuild.com/blog/reproducible-builds-when-dependencies-disappear"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.stablebuild.com/blog/reproducible-builds-when-dependencies-disappear"/>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
     <loc>https://stablebuild.jp/blog/stablebuild-launch</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://stablebuild.jp/blog/stablebuild-launch"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://stablebuild.jp/blog/stablebuild-launch"/>
@@ -60,15 +69,6 @@
     <xhtml:link rel="alternate" hreflang="ja" href="https://stablebuild.jp/blog/deadsnakes-removed-ubuntu-20-04-support"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.stablebuild.com/blog/deadsnakes-removed-ubuntu-20-04-support"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.stablebuild.com/blog/deadsnakes-removed-ubuntu-20-04-support"/>
-    <changefreq>yearly</changefreq>
-    <priority>0.6</priority>
-  </url>
-
-  <url>
-    <loc>https://stablebuild.jp/blog/reproducible-builds-when-dependencies-disappear</loc>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://stablebuild.jp/blog/reproducible-builds-when-dependencies-disappear"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.stablebuild.com/blog/reproducible-builds-when-dependencies-disappear"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.stablebuild.com/blog/reproducible-builds-when-dependencies-disappear"/>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>

@@ -38,227 +38,202 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TCKXS4CS"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) --><div class="page-wrapper overflow-hidden"><div data-w-id="c2ac369a-bb01-2411-3913-ecdf6c5877a2" data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="header-wrapper w-nav"><div class="container-default w-container"><div class="header-content-wrapper"><a href="/" class="header-logo-link w-nav-brand"><img src="https://cdn.prod.website-files.com/6558cb01ceb72f12e7405275/65788a469e26879c60cbba62_StableBuild%20logo.svg" loading="eager" width="200" height="Auto" alt="StableBuild logo" class="header-logo"/></a><div class="header-middle"><nav role="navigation" class="header-nav-menu-wrapper w-nav-menu"><ul role="list" class="header-nav-menu-list"><li class="header-nav-list-item middle"></li><li class="header-nav-list-item middle"><a href="https://stablebuild.gitbook.io/ja" target="_blank" class="header-nav-link w-nav-link">ドキュメント</a></li><li class="header-nav-list-item middle"><a href="/features" class="header-nav-link w-nav-link">機能</a></li><li class="header-nav-list-item middle"><a href="/pricing" class="header-nav-link w-nav-link">料金</a></li><li class="header-nav-list-item middle"><a href="/blog" aria-current="page" class="header-nav-link w-nav-link w--current">ブログ</a></li><li class="header-nav-list-item show-in-tablet mg-bottom-16px"><a href="https://dashboard.stablebuild.com/?lang=ja" class="link-wrapper w-inline-block"><div class="line-rounded-icon link-icon-left"></div><div class="link-text">ログイン</div></a></li><li class="header-nav-list-item show-in-tablet"><a href="https://dashboard.stablebuild.com/?lang=ja" class="btn-primary small w-button">始める</a></li></ul></nav></div><div class="header-right-side"><div class="hamburger-menu-wrapper w-nav-button"><div class="hamburger-menu-bar top"></div><div class="hamburger-menu-bar bottom"></div></div><a href="https://dashboard.stablebuild.com/?lang=ja" class="link-wrapper header-link-hidde-on-tablet-copy w-inline-block"><div class="line-rounded-icon link-icon-left"></div><div class="link-text">ログイン</div></a><a href="https://dashboard.stablebuild.com/?lang=ja" class="btn-primary-2 hidden-on-mbl w-button">始める</a><a href="https://www.stablebuild.com/blog/reproducible-builds-when-dependencies-disappear" class="link-wrapper header-link-hidde-on-tablet-copy w-inline-block" style="margin-left: 12px; margin-right: 4px;"><div class="line-rounded-icon link-icon-left"></div><div class="link-text">English</div></a></div></div></div></div><div class="section top blog-post"><div class="container-default w-container"><div class="inner-container _864px center"><div class="text-center-shadow mg-bottom-56px"><div class="flex align-center justify-center mg-bottom-10px"><div class="color-neutral-800">記事</div><div class="divider-details"></div><div>2026年8月17日</div></div><h1 class="mg-bottom-0">依存性が消えてもビルドを再現する - StableBuildが入力を安定させる仕組み</h1></div></div><div class="inner-container _976px center"><img src="https://cdn.prod.website-files.com/6558cb02ceb72f12e74052f7/6a82dba464a59f98dea28ac4_StableBuild%20-%20Reproducible%20Builds%20Blog.png" alt="依存性が消えてもビルドを再現する - StableBuildが入力を安定させる仕組み" class="border-radius-24px width-100"/></div></div></div><div class="section small position-relative---z-index-1"><div class="container-default w-container"><div class="inner-container _674px center"><div class="rich-text w-richtext"><p>ある朝ログインしたら、自社のプロダクトが動いていない。出社してみるとCIは赤く、誰もコードを変えていない。</p>
-<p>昨日までは問題なく動いていて、ビルドも通っていた。それが今、顧客を待たせたまま、チームは原因を探し、経営陣は何が起きたのかを知りたがっている。誰の責任かなど、彼らの関心事ではありません。目に入るのは、壊れたプロダクト、不満を抱えたユーザ、そして失われかねない売上です。</p>
-<p>原因は、イメージが消えてDockerfileが失敗したことかもしれません。パッケージが取り下げられたのかもしれません。公開レジストリのレート制限に達したのかもしれません。あるいは上流のサーバーが単に応答していないだけかもしれません。</p>
-<p>繰り返しますが、コードは変わっていません。</p>
-<p>変わったのは、その入力です。</p>
-<p>この区別が重要なのは、現代のビルドがGitリポジトリの中身よりはるかに多くのものに依存しているからです。Dockerイメージ、OSパッケージ、Pythonパッケージ、バイナリ、アーカイブ、そして雑多なファイルを、自分たちの管理下にないインフラから取得しています。</p>
-<p>ほとんどの場合、それは見事に機能します。</p>
-<p>うまくいかなくなる日までは。</p>
-<p>StableBuildは、ビルドのまさにその部分のために存在しています。</p>
-<p>StableBuildは、ビルドパイプラインと、Docker Hub、PyPI、Ubuntu、Debian、Alpine、外部ファイルURLといった上流のソースとの間に位置します。いったんStableBuild経由でアーティファクトを取得すれば、それを保持できるため、昨日の環境をインターネットに再現してもらうのではなく、後からでも同じものをビルドに渡せます。たとえばStableBuildのDockerミラーは不変の<strong>プルスルーキャッシュ</strong>として動作し、パッケージミラーはPythonパッケージやOSパッケージを過去の状態に固定できるようにします。</p>
-<p>考え方はシンプルです。</p>
-<p><strong>ビルドが変わるのは、あなたが変えたときであるべきで、上流の誰かが何かを変えたときであってはならない。</strong></p>
-<p>これは<strong>ビルドの再現性</strong>を支える重要な要素です。</p>
-<p>コードを変えていないのにビルドが失敗した経験があるなら、ここから先の話には心当たりがあるはずです。</p>
-<h2>ビルドの再現性とは何か</h2>
-<p>再現性のあるビルドとは、大まかにいえば、同じソースと同じビルド入力からもう一度実行したときに、同じ結果が得られるビルドのことです。</p>
-<p>そしてそのために最初に必要なものは、驚くほど単純です。同じ入力がまだ存在していること、です。</p>
-<p>ここで技術的に重要な注意点があります。</p>
-<p>依存性が安定していれば、それだけであらゆるビルドがバイト単位で再現可能になる、というわけではありません。タイムスタンプ、コンパイラ、環境変数、ビルドパス、非決定的なツールなど、ビルドプロセスの他の部分も出力に影響し得ます。Debian自身の再現性に関するガイダンスは、こうした非決定性の要因の多くを扱っています。</p>
-<p>StableBuildが取り組んでいるのは、より根本的な問題です。</p>
-<p><strong>そもそも、同じ外部入力をもう一度手に入れられるのか。</strong></p>
-<p>Dockerイメージが消えていたら、パッケージが削除されていたら、あるいは古いビルドに書かれたURLが今は別のものを返すのなら、何かを再現するための土台がありません。</p>
-<p>StableBuildは、その土台が足元から動かないようにします。</p>
-<h2>プルスルーキャッシュとは何か</h2>
-<p><a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/pull-through-cache-creating-rule.html"><strong>プルスルーキャッシュ</strong></a>は、ビルドと上流のレジストリやリポジトリの間に位置します。</p>
-<p>ビルドが初めてアーティファクトを要求したとき、キャッシュは上流から取得し、そのコピーを保存して、ビルドに返します。</p>
-<p>たとえばDockerfileが次のようなイメージを参照しているとします。</p>
-<p><code>python:3.12-slim</code></p>
-<p>最初のリクエストで、StableBuildがそのイメージを取得します。いったんStableBuild経由でプルされれば、そのイメージは保持され不変になるため、以降のリクエストでは、その時点で上流のタグが指しているものを無条件に信頼するのではなく、同じコンテナを返せます。</p>
-<p>この最後の部分が重要です。</p>
-<p>キャッシュと不変な依存性は、まったく同じものではありません。</p>
-<p>一般的なキャッシュは、いずれ項目を期限切れにして上流から再取得します。上流のアーティファクトが変わっていれば、キャッシュの中身は新しいバージョンに入れ替わります。</p>
-<p>StableBuildの目的はそこにはありません。</p>
-<p>いったん取り込んだものは、ビルドが元々使っていた依存性として利用可能な状態で残せます。</p>
-<p>つまり、役に立つイメージは次のようなものではありません。</p>
-<p>「ダウンロードを速くする」</p>
-<p>そうではなく、こうです。</p>
-<p>「上流の変更が、いつのまにか自分の変更になってしまうのを止める」</p>
-<p>すべてのビルドが毎回公開ソースへ直接取りに行く場合に何が起こり得るかを考えると、この違いはずっと重要になってきます。</p>
-<h2>Docker Hub、PyPI、公開OSミラーから直接取得すればいいのでは？</h2>
-<p>公開リポジトリは、配布インフラとしては非常に優れているからです。</p>
-<p>ただ、あなたのビルド環境を永久に残す歴史的な記録ではありません。</p>
-<p>これが問題になる、ごくありふれた経路が4つあります。</p>
-<h3>1. 依存性が消える</h3>
-<p>イメージは非推奨になります。パッケージのバージョンは削除されます。リポジトリは閉鎖されます。ファイルは移動します。公開元は古いリリースを整理します。</p>
-<p>そこには、まったくもって正当な理由があることもあります。</p>
-<p>3年前の本番リリースは、そんな事情を考慮してくれません。</p>
-<p>そのリリースを再ビルドする必要があるなら、必要なのは今日入手できる最新のものではなく、リリース当時に存在した依存性です。</p>
-<h3>2. 可変な参照は変わり得る</h3>
-<p>バージョンのように見えるタグが、常に不変の内容を指しているとは限りません。</p>
-<p>ビルドが可変なタグを参照していて、公開元がそのタグの指す先を更新すれば、誰もDockerfileに触っていないのに、ビルドは別のアーティファクトを取り込むことになります。</p>
-<p>古いビルドのデバッグを不快なものにするのは、まさにこの種の見えない状態変化です。</p>
-<h3>3. レート制限は他人の運用ポリシー</h3>
-<p>ノートPCから数回イメージをプルする程度の開発者なら、レジストリの制限に気づくことはないでしょう。</p>
-<p>CIは違います。</p>
-<p>並列ジョブ、頻繁なビルド、使い捨てのランナーは、短時間で大量のリクエストを生み出します。そうなると、まったく正当なビルドが「今のところ十分プルした」とレジストリに判断されて失敗し始めます。</p>
-<p>コードには問題ありません。</p>
-<p>依存性にも問題ありません。</p>
-<p>それでもビルドは失敗します。</p>
-<h3>4. 上流の障害が、自分たちの障害になる</h3>
-<p>ビルド時に公開レジストリを必要とするなら、そのレジストリの可用性は、そのままビルドパイプラインの可用性の一部になります。</p>
-<p>レジストリが落ちれば、待つしかありません。</p>
-<p>これらの問題は、どれも特に珍しいものではありません。</p>
-<p>だからこそ厄介なのです。</p>
-<p>ソフトウェア自体は何も変わっていないのに、再ビルドできなくなるのです。</p>
-<p>ここまでで1つでも心当たりがあるなら、次の疑問は「StableBuildは実際に何を保持してくれるのか」でしょう。</p>
-<h2>StableBuildは実際に何を保持するのか</h2>
-<p>StableBuildは現在、4つの主要な依存性の領域をカバーしています。</p>
+<!-- End Google Tag Manager (noscript) --><div class="page-wrapper overflow-hidden"><div data-w-id="c2ac369a-bb01-2411-3913-ecdf6c5877a2" data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="header-wrapper w-nav"><div class="container-default w-container"><div class="header-content-wrapper"><a href="/" class="header-logo-link w-nav-brand"><img src="https://cdn.prod.website-files.com/6558cb01ceb72f12e7405275/65788a469e26879c60cbba62_StableBuild%20logo.svg" loading="eager" width="200" height="Auto" alt="StableBuild logo" class="header-logo"/></a><div class="header-middle"><nav role="navigation" class="header-nav-menu-wrapper w-nav-menu"><ul role="list" class="header-nav-menu-list"><li class="header-nav-list-item middle"></li><li class="header-nav-list-item middle"><a href="https://stablebuild.gitbook.io/ja" target="_blank" class="header-nav-link w-nav-link">ドキュメント</a></li><li class="header-nav-list-item middle"><a href="/features" class="header-nav-link w-nav-link">機能</a></li><li class="header-nav-list-item middle"><a href="/pricing" class="header-nav-link w-nav-link">料金</a></li><li class="header-nav-list-item middle"><a href="/blog" aria-current="page" class="header-nav-link w-nav-link w--current">ブログ</a></li><li class="header-nav-list-item show-in-tablet mg-bottom-16px"><a href="https://dashboard.stablebuild.com/?lang=ja" class="link-wrapper w-inline-block"><div class="line-rounded-icon link-icon-left"></div><div class="link-text">ログイン</div></a></li><li class="header-nav-list-item show-in-tablet"><a href="https://dashboard.stablebuild.com/?lang=ja" class="btn-primary small w-button">始める</a></li></ul></nav></div><div class="header-right-side"><div class="hamburger-menu-wrapper w-nav-button"><div class="hamburger-menu-bar top"></div><div class="hamburger-menu-bar bottom"></div></div><a href="https://dashboard.stablebuild.com/?lang=ja" class="link-wrapper header-link-hidde-on-tablet-copy w-inline-block"><div class="line-rounded-icon link-icon-left"></div><div class="link-text">ログイン</div></a><a href="https://dashboard.stablebuild.com/?lang=ja" class="btn-primary-2 hidden-on-mbl w-button">始める</a><a href="https://www.stablebuild.com/blog/reproducible-builds-when-dependencies-disappear" class="link-wrapper header-link-hidde-on-tablet-copy w-inline-block" style="margin-left: 12px; margin-right: 4px;"><div class="line-rounded-icon link-icon-left"></div><div class="link-text">English</div></a></div></div></div></div><div class="section top blog-post"><div class="container-default w-container"><div class="inner-container _864px center"><div class="text-center-shadow mg-bottom-56px"><div class="flex align-center justify-center mg-bottom-10px"><div class="color-neutral-800">記事</div><div class="divider-details"></div><div>2026年9月10日</div></div><h1 class="mg-bottom-0">依存性が消えてもビルドを再現する - StableBuildが入力を安定させる仕組み</h1></div></div><div class="inner-container _976px center"><img src="https://cdn.prod.website-files.com/6558cb02ceb72f12e74052f7/6a82dba464a59f98dea28ac4_StableBuild%20-%20Reproducible%20Builds%20Blog.png" alt="依存性が消えてもビルドを再現する - StableBuildが入力を安定させる仕組み" class="border-radius-24px width-100"/></div></div></div><div class="section small position-relative---z-index-1"><div class="container-default w-container"><div class="inner-container _674px center"><div class="rich-text w-richtext"><p>ある朝、出社すると自社プロダクトが動かなくなっている場面を想像してみてください。</p>
+<p>コードは誰も変更していないのに、CI（継続的インテグレーション）が真っ赤になっています。昨日まではすべて正常に動作し、ビルドも通過していました。しかし今、チームが問題の原因を探している間も顧客は待たされており、経営陣からは「何があったのか」と説明を求められています。彼らにとっては誰の責任かは関係ありません。壊れたプロダクト、不満を抱くユーザ、そして失われるかもしれない収益だけです。</p>
+<p>原因は、イメージが消えたことによるDockerfileのビルド失敗、パッケージの削除、パブリックレジストリのレート制限（利用制限）、あるいは上流サーバーの応答停止かもしれません。</p>
+<p>繰り返しになりますが、<strong>あなたのコードは何も変わっていません。</strong></p>
+<p>変わったのは、<strong>ビルドへの「入力要素」</strong>です。</p>
+<p>現代のビルドは、Gitリポジトリ内にあるもの以上に依存しているため、この違いは非常に重要です。ビルド処理では、チームの管理外にあるインフラから、Dockerイメージ、OSパッケージ、Pythonパッケージ、バイナリ、アーカイブ、その他さまざまなファイルをダウンロードしています。</p>
+<p>大抵の場合、それは完璧に機能します。</p>
+<p><strong>……ダメになる瞬間までは。</strong></p>
+<p>StableBuildは、まさにその領域のために存在します。</p>
+<p>StableBuildは、あなたのビルドパイプラインと、Docker Hub、PyPI、Ubuntu、Debian、Alpine、外部ファイルのURLといった上流ソース（アップストリーム）との間に位置します。一度StableBuild経由でアーティファクト（依存ファイル）を取得すれば、そのアーティファクトは保存され、後からパブリックなインターネットに対して「昨日の環境を再現してほしい」と頼むことなく、まったく同じものを再取得できるようになります。例えばStableBuildのDockerミラーは、変更不可能なプルスルーキャッシュ（pull-through cache）として機能し、パッケージミラーによってPythonやOSのパッケージを過去の特定状態に固定することができます。</p>
+<p>考え方は非常にシンプルです。</p>
+<p><strong>ビルドが変わるのは「あなたが変更を加えたとき」であるべきであり、「上流の誰かが勝手に変更したとき」であってはなりません。</strong></p>
+<p>これは、「再現可能なビルド（Reproducible Builds）」を実現する上で極めて重要な要素です。</p>
+<p>コードを変更していないのにビルドが失敗した経験が一度でもあるなら、ここから先の話にもきっと心当たりがあるはずです。</p>
+<h2>再現可能なビルド（Reproducible Build）とは？</h2>
+<p>「再現可能なビルド」とは、簡単に言えば「同じソースコードとビルド入力から再度実行した際に、まったく同じ結果を生成できるビルド」のことです。</p>
+<p>そして、それを実現するために最初に必要なのは、驚くほどシンプルです。</p>
+<p>「同じ入力要素が、今も存在していること」です。</p>
+<p>ここで1つ、重要な技術的補足があります。</p>
+<p>依存関係を安定させるだけでは、すべてのビルドがバイト単位で完全に一致する（byte-for-byte reproducible）わけではありません。タイムスタンプ、コンパイラ、環境変数、ビルドパス、非決定的な動作をするツールなど、ビルドプロセスの他の要素も出力結果に影響を与えます。Debianが公開している再現可能なビルドに関するガイドラインでも、こうした非決定性の原因を多く扱っています。</p>
+<p>StableBuildが解決するのは、さらに根本的な問題です。</p>
+<p><strong>そもそも『同じ外部入力』を今すぐ手に入れることができるか？</strong></p>
+<p>Dockerイメージが消滅していたり、パッケージが削除されていたり、過去のビルドで使ったURLが現在では別なファイルを返すようになっている場合、何かを再現するための安定した土台そのものが存在しないことになります。</p>
+<p>StableBuildは、その土台が足元から崩れるのを防ぎます。</p>
+<h2>プルスルーキャッシュ（Pull-through Cache）とは？</h2>
+<p><a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/pull-through-cache-creating-rule.html">プルスルーキャッシュ</a>とは、自社のビルドと上流のレジストリ／リポジトリの間に配置されるキャッシュです。</p>
+<p>ビルドが初めてアーティファクトをリクエストした際、キャッシュは上流からそれらを取得してコピーを保存し、ビルド側に返します。</p>
+<p>例えば、Dockerfileで以下のように参照しているとします。</p>
+<pre class="richtext-code-block"><code>python:3.12-slim
+</code></pre>
+<p>最初の要求時、StableBuildはイメージを取得します。一度StableBuildを通過すると、そのイメージは保存され、イミュータブル（変更不可）として扱われます。これにより、その後のリクエストでは、上流のタグがその時点で何を指しているかに左右されることなく、<strong>常に同じコンテナを返す</strong>ことができます。</p>
+<p>ここが重要なポイントです。</p>
+<p><strong>「キャッシュ」と「不変の依存関係（Immutable Dependency）」は同義ではありません。</strong></p>
+<p>一般的なキャッシュは、一定時間が経つと期限切れになり、上流から再取得します。もし上流のアーティファクトが更新されていれば、キャッシュの中身も新しいバージョンに置き換わってしまいます。</p>
+<p>StableBuildの目的は異なります。</p>
+<p>一度取得したアーティファクトは、<strong>ビルドが元々使用していた依存関係として保持できます。</strong></p>
+<p>つまり、単に「ダウンロードの高速化」ではありません。</p>
+<p><strong>「上流の変更が、知らないうちに自分の変更になってしまうことを防ぐ」</strong></p>
+<p>この違いは、すべてのビルドがパブリックなソースに直接アクセスし続けた場合に何が起きるかを考えると、重要性が明白になります。</p>
+<h2>なぜDocker HubやPyPI、パブリックOSミラーから直接取得してはいけないのか？</h2>
+<p>パブリックリポジトリは「配信インフラ」としては優秀ですが、あなたのビルド環境の「永久的な履歴記録」として作られているわけではないからです。</p>
+<p>これが原因でトラブルが起きる典型的なケースが4つあります。</p>
+<h3>1. 依存関係が消える</h3>
+<p>イメージは非推奨になり、パッケージのバージョンは削除され、リポジトリは閉鎖され、ファイルは移動し、公開者が古いリリースを整理します。</p>
+<p>これらには正当な理由がある場合もあります。</p>
+<p>しかし、<strong>3年前に作成したプロダクションリリースには関係ありません。</strong></p>
+<p>そのリリースを再ビルドする必要があるとき、今手に入る最新のものではなく、「そのリリースが作られた当時に存在していた依存関係」が必要なのです。</p>
+<h3>2. 可変な参照（ミュータブルタグ）が変更される</h3>
+<p>バージョン名のように見えるタグであっても、必ずしも中身が変更不可であるとは限りません。</p>
+<p>可変タグを参照している場合、公開者がタグの参照先を更新すると、誰もDockerfileを触っていないのに異なるアーティファクトが読み込まれてしまいます。これこそが、過去のビルドのデバッグを困難にする非表示の現象です。</p>
+<h3>3. レート制限は「他人の運用方針」である</h3>
+<p>開発者がノートPCから数回イメージをプルする程度なら、レジストリの制限に気づかないかもしれません。</p>
+<p>しかしCI環境は異なります。</p>
+<p>並列ジョブ、頻繁なビルド、一時的な（ephemeral）ランナーは、短時間で大量のリクエストを発生させます。その結果、レジストリ側が「今回のプル上限に達した」と判断し、正当なビルドが突然失敗し始めます。</p>
+<p>コードに問題はなく、依存関係にも問題がないのに、ビルドが失敗するのです。</p>
+<h3>4. 上流の障害が「自社の障害」になる</h3>
+<p>ビルド時にパブリックレジストリを必須とする場合、そのレジストリの稼働率がそのまま自社のビルドパイプラインの稼働率に組み込まれることになります。上流がダウンすれば、復旧を待つしかありません。</p>
+<p>これらの問題は、決して珍しいものではありません。だからこそ厄介なのです。</p>
+<p><strong>ソフトウェア自体には何も変更がないにもかかわらず、再ビルドに失敗する可能性があります。</strong></p>
+<p>もし1つでも心当たりがあるなら、次に気になるのは「StableBuildが実際に何を保存できるのか？」でしょう。</p>
+<h2>StableBuildが実際に保存・保護するもの</h2>
+<p>StableBuildは現在、主に4つの依存関係領域をカバーしています。</p>
 <table style="width: 100%; border-collapse: collapse; text-align: left; font-family: inherit">
 <thead>
 <tr style="border-bottom: 2px solid #e2e8f0">
-<th style="padding: 12px 16px; font-weight: 600">依存性の領域</th>
-<th style="padding: 12px 16px; font-weight: 600">StableBuildが保持するもの</th>
-<th style="padding: 12px 16px; font-weight: 600">代わりに使われがちなもの</th>
+<th align="left">依存関係の領域</th>
+<th align="left">StableBuildが保存するもの</th>
+<th align="left">従来チームが頼りがちだった代替策</th>
 </tr>
 </thead>
 <tbody>
 <tr style="border-bottom: 1px solid #edf2f7">
-<td style="padding: 12px 16px">コンテナイメージ</td>
-<td style="padding: 12px 16px">DockerおよびOCIイメージを不変な形で保存</td>
-<td style="padding: 12px 16px">Docker Hubへの直接アクセス、プライベートDockerレジストリ、その他のレジストリプロキシ</td>
+<td align="left"><strong>コンテナイメージ</strong></td>
+<td align="left">DockerおよびOCIイメージ（変更不可能な状態で保存）</td>
+<td align="left">Docker Hubへの直接接続、自前のプライベートDockerレジストリ、その他のレジストリプロキシ</td>
 </tr>
 <tr style="border-bottom: 1px solid #edf2f7">
-<td style="padding: 12px 16px">OSパッケージ</td>
-<td style="padding: 12px 16px">過去のUbuntu、Debian、Alpineパッケージ</td>
-<td style="padding: 12px 16px">稼働中のapt/apkリポジトリ、または自前で維持するミラー</td>
+<td align="left"><strong>OSパッケージ</strong></td>
+<td align="left">過去のUbuntu、Debian、Alpineパッケージ</td>
+<td align="left">ライブ状態のapt/apkリポジトリ、または自前で維持するミラー</td>
 </tr>
 <tr style="border-bottom: 1px solid #edf2f7">
-<td style="padding: 12px 16px">Pythonパッケージ</td>
-<td style="padding: 12px 16px">過去のPyPIパッケージとその依存性</td>
-<td style="padding: 12px 16px">公開PyPI、またはプライベートなパッケージプロキシ</td>
+<td align="left"><strong>Pythonパッケージ</strong></td>
+<td align="left">過去のPyPIパッケージおよびその依存関係</td>
+<td align="left">パブリックなPyPI、または自前のパッケージプロキシ</td>
 </tr>
 <tr>
-<td style="padding: 12px 16px">外部ファイル</td>
-<td style="padding: 12px 16px">URLから取得したファイル</td>
-<td style="padding: 12px 16px">curl、wget、リリースサーバー、任意の外部URL</td>
+<td align="left"><strong>外部ファイル</strong></td>
+<td align="left">URLから取得されるファイル</td>
+<td align="left">curl、wget、リリースサーバー、任意の外部URL</td>
 </tr>
 </tbody>
 </table>
-<p>ビルドの該当部分をStableBuildに向けるだけで、通過する依存性がそのまま取り込まれます。</p>
-<p>そのために新しいビルドシステムへ移行する必要はありません。</p>
-<p>pipやuvといったツールは、すでにカスタムのパッケージインデックスを理解します。Dockerのビルドはレジストリ URL を理解します。APTやAPKも代替リポジトリを理解します。</p>
-<p>StableBuildは、そうした既存のワークフローに収まるように設計されています。</p>
-<p>これが重要なのは、目的がチームのソフトウェアビルドの仕組みを作り替えることではないからです。目的は、ソフトウェアが依存しているものが、その足元で勝手に変わらないようにすることです。</p>
-<p>入力が動かなくなると、もう1つ、ずっと簡単になることがあります。リリースに実際に何が入っていたのかを示せるようになる、という点です。</p>
-<h2>これはSBOMと何の関係があるのか</h2>
-<p>大いに関係があります。</p>
-<p><strong>SBOM</strong>、すなわち<a href="https://en.wikipedia.org/wiki/Software_supply_chain"><strong>ソフトウェア部品表</strong></a>は、ソフトウェアに含まれる、あるいは関連するコンポーネントの一覧です。</p>
-<p>リリースのコンポーネント目録だと考えてください。</p>
-<p>これはセキュリティ、脆弱性管理、監査、ソフトウェアの出自の確認において、ますます有用になっています。ただし「その依存性が存在していたと分かること」と「そのソフトウェアを生み出した依存性そのものを今も取得できること」の間には、実務上の違いがあります。</p>
-<p><strong>SBOM</strong>は目録です。</p>
-<p>タイムマシンではありません。</p>
-<p>古いパッケージが消えたり上流のアーティファクトが変わったりすれば、<strong>SBOM</strong>はリリースに何が含まれていたかを教えてはくれますが、元の入力がもう手に入らないのであれば、そのリリースの再現や調査は難しくなります。</p>
-<p>StableBuildは、SBOMを生成したり検証したりするものではありません。</p>
-<p>その役割はもっと下流にあります。</p>
-<p>ビルドが依存していた外部入力を保持し、それらのアーティファクトを後からでも利用できる状態に保ちます。</p>
-<p>これにより、開発チームやセキュリティチームが次のような問いに答える必要が生じたとき、より確かな土台を持てるようになります。</p>
+<p>ビルドの該当部分の接続先をStableBuildに向けるだけで、通過した依存関係がキャプチャされます。</p>
+<p>ワークフローを新しいビルドシステムに変える必要はありません。</p>
+<p>pip や uv といったツールはカスタムパッケージインデックスをサポートしていますし、DockerビルドはレジストリURLを、apt や apk は代替リポジトリに対応しています。</p>
+<p>StableBuildは、既存のワークフローに自然に組み込めるよう設計されています。</p>
+<p>重要なのは、「チームのソフト開発やビルド方法を一から作り直す」ではなく、「ソフトウェアが依存しているものが、足元で勝手に変わらないようにすること」です。</p>
+<p>これらの入力要素が固定されれば、次のプロセスもずっと容易になります。それは「リリースに実際何が含まれていたかを証明すること」です。</p>
+<h2>これは「SBOM」とどう関係するのか？</h2>
+<p>非常に深い関係があります。</p>
+<p>SBOM（Software Bill of Materials：ソフトウェア部品表）とは、ソフトウェアに含まれる、あるいは関連する構成要素の一覧リストのことです。リリースの「構成要素の明細書」と考えるとわかりやすいでしょう。</p>
+<p>これはセキュリティ、脆弱性管理、監査、ソフトウェアの出所（プロベナンス）確認において非常に有用です。しかし、「その依存関係が存在したことを知っていること」と、「そのソフトウェアを生成した『正確な依存関係』を今でも取得できること」の間には実用上の大きな違いがあります。</p>
+<p><strong>SBOMは「目録」であり、「タイムマシン」ではありません。</strong></p>
+<p>古いパッケージが消えたり、上流のアーティファクトが変更されたりした場合、SBOMを見れば「何が含まれるべきだったか」は分かりますが、当時の元の入力が入手できなければ、そのリリースを再現して調査することは難しくなります。</p>
+<p>StableBuild自体は、SBOMの生成や検証を行うものではありません。その役割はさらに上流（インフラ層）にあります。</p>
+<p>ビルドが依存していた外部依存関係を保存することで、後からそれらのアーティファクトを利用可能な状態に保ちます。</p>
+<p>これにより、エンジニアリングチームやセキュリティチームが以下のような質問に答える際の強固な土台となります。</p>
 <ul>
-<li>このリリースには正確に何が入っていたのか</li>
-<li>同じコンポーネントを今日も取得できるのか</li>
-<li>それを作った環境を再現できるのか</li>
-<li>過去のどのリリースに脆弱な依存性が含まれていたのか</li>
-<li>依存性の半分を差し替えることなく、該当バージョンを再ビルドできるのか</li>
+<li>このリリースには「具体的に」何が入っていたのか？</li>
+<li>それらの構成要素を「今日でも」取得できるか？</li>
+<li>それを作成した環境を「再現」できるか？</li>
+<li>脆弱性のある依存関係が含まれている過去のリリースはどれか？</li>
+<li>依存関係の半分を置き換えることなく、影響を受けるバージョンを「再ビルド」できるか？</li>
 </ul>
-<p>元の入力の一部がもう存在しないなら、そのビルドを意味のある形で再構成することはできません。</p>
-<p>そしてこれは、エンジニアリング部門以外の誰かが同じ答えを求め始めた時点で、単なる技術的な利便性の話ではなくなります。</p>
-<h2>これはEUサイバーレジリエンス法に関係するか</h2>
-<p>はい。ただしStableBuild単体でコンプライアンス製品になるわけではありません。</p>
-<p><a href="https://www.cyberresilienceact.eu/regulation.html"><strong>EUサイバーレジリエンス法</strong></a>（一般に<strong>サイバーレジリエンス法</strong>、CRAと略されます）は、EU域内で販売されるデジタル要素を持つ製品に対してサイバーセキュリティ上の義務を導入するものです。</p>
-<p>なぜ気にすべきなのか。EU域内でソフトウェアや接続型のデジタル製品を販売しているなら、サイバーレジリエンス法はサイバーセキュリティ、脆弱性報告、文書化に関する現実の義務を事業にもたらし得ます。</p>
-<p>この規制は原則として2027年12月11日から適用されます。悪用が確認された脆弱性や重大なインシデントに関する一部の報告義務は、それより早い2026年9月11日から適用されます。</p>
-<p>つまり、コンポーネントの特定、脆弱性への対応、文書化、ソフトウェアの出自といったものが、抽象的なセキュリティ概念ではなく、日々の運用課題になっていくということです。</p>
-<p>影響を受けたリリースを調査する必要が生じたとき、関係する依存性のバージョンが分かっていることは有用です。</p>
-<p>その依存性を実際に取得できるなら、さらに良いでしょう。</p>
-<p>StableBuildは、ビルドの入力を保持することでこのプロセスの一部を支えられます。ただし、製品を<strong>サイバーレジリエンス法</strong>に準拠させるものでは<strong>ありません</strong>。脆弱性管理、報告プロセス、セキュリティ対策、文書化、法的助言を代替するものでもありません。</p>
-<p>StableBuildが解決するのは、もっと狭い1つのインフラ課題です。</p>
-<p><strong>調査や再ビルドに必要なアーティファクトが、まだそこにある。</strong></p>
-<p>当たり前のことのように聞こえます。</p>
-<p>リリースから3年後に依存性が消えていると分かったとき、それはすぐに当たり前とは思えなくなります。CRAはこれが重要である理由の1つですが、再現可能なソフトウェアへの流れは規制の枠を大きく超えて広がっています。</p>
-<h2>ビルドの再現性はソフトウェアサプライチェーンの論点になりつつある</h2>
-<p>これは規制だけの話ではありません。</p>
-<p>Debianは長年にわたって<a href="/blog/debian-just-mandated-reproducible-builds"><strong>ビルドの再現性</strong></a>を推し進めてきました。Debian 13のリリースノートでは、バイト単位で再現可能なパッケージビルドに向けた大きな進展が説明され、インストール済みパッケージの再現性の状態を確認する<code>debian-repro-status</code>のようなツールも紹介されています。</p>
-<p>これは、ソフトウェアサプライチェーンの扱われ方が大きく変わってきていることの表れです。</p>
-<p>もはや、こう言うだけでは足りません。</p>
-<p>「ここにソースコードがあります」</p>
-<p>チームが理解しておく必要があるのは、次のような点です。</p>
-<p>「どのソースで、どの依存性を、どのバージョンで、どのビルド環境で、そして何が起きたのかを再現できるのか」</p>
-<p>StableBuildは、この式のすべてを解くわけではありません。</p>
-<p>依存性の保持という部分を解きます。</p>
-<p>そして依存性の保持は、上流のインターネットが先へ進んでしまったのに、本番のソフトウェアはそこに留まっているという場面で、驚くほど重要になります。</p>
-<h2>代わりにプライベートDockerレジストリが必要なのでは？</h2>
-<p>そうかもしれません。解決したい問題によります。</p>
-<p><a href="https://www.docker.com/blog/how-to-use-your-own-registry/"><strong>プライベートDockerレジストリ</strong></a>は、社内向けのコンテナイメージを公開・管理したい場合、社内の配布ワークフローを整えたい場合、より広範なアーティファクト管理環境を統制したい場合には、正しい答えになり得ます。</p>
-<p>StableBuildが解こうとしているのは、より具体的な問題です。</p>
-<p><strong>ミラーのインフラを自分で全部運用することなく、外部のビルド依存性を利用可能かつ不変な状態に保つにはどうすればよいか。</strong></p>
-<p>Dockerについては、StableBuildはDocker Hubの不変なミラーおよび<strong>プルスルーキャッシュ</strong>として機能します。PythonパッケージとOSパッケージについては、過去に遡ったミラーを維持しています。URLから取得する任意のファイルにも対応します。</p>
-<p>ですから、実際の要件が次のようなものであれば、</p>
-<p>「依存しているDockerイメージやパッケージが消えたり変わったりしないようにしたい」</p>
-<p>そのためだけに、もう1つインフラを構築して運用する必要はないかもしれません。</p>
-<p>そして、より広いリポジトリ管理という枠で考えるなら、おそらくもう2つの名前が挙がるでしょう。ArtifactoryとNexusです。</p>
-<h2>ArtifactoryやNexusはどうか</h2>
-<p>すでにArtifactoryやNexusをうまく運用していて、チームも満足しているなら、そのまま使い続けてください。</p>
-<p>すでに問題を解決しているインフラを移行したところで、ご褒美が出るわけではありません。</p>
-<p>リポジトリマネージャーが適しているのは、組織がより広範なアーティファクト管理機能を必要とし、それに伴うインフラとワークフローの運用を引き受けられる場合です。</p>
-<p>使ったことがない方のために説明すると、ArtifactoryとNexusはリポジトリマネージャーです。ソフトウェアパッケージ、コンテナイメージ、その他のビルドアーティファクトを保存・プロキシ・整理・統制するために開発チームが利用するシステムです。</p>
-<p>どちらも十分に確立されたツールで、多くの大規模組織がうまく活用しています。</p>
-<p>違いは、それを動かし続けるために何をしなければならないかという点です。</p>
-<p>StableBuildが向いているのは、要件がもっと狭い場合です。</p>
-<p><strong>外部依存性を保持し、不変にし、依存性の保持を社内のもう1つのプラットフォーム案件にすることなく、ビルドを動き続けさせる。</strong></p>
-<p>これは特に、「アーティファクトリポジトリの運用」を誰かの職務に足したくない小規模な開発チームに当てはまります。</p>
-<h2>StableBuildは誰のためのものか</h2>
-<p>特定の一つの層に絞られているわけではありません。</p>
-<p>共通しているのは、そのチームが「後から同じソフトウェアをもう一度ビルドできること」を大切にしているという点です。</p>
-<p>たとえば次のような方々です。</p>
-<p><strong>CIを多用しているチーム。</strong> 公開レジストリの制限、障害、依存性の変化がビルドを壊しているなら、それらの入力をキャッシュして保持することで不安定さの原因を1つ取り除けます。</p>
-<p><strong>中小規模の開発チーム。</strong> レジストリのクラスタや過去のパッケージミラー、複数のプロキシを自分で運用したくはないが、自前の依存性インフラに相当する信頼性は欲しい、という場合です。</p>
-<p><strong>長期間運用されるソフトウェアを保守しているチーム。</strong> 今日存在する依存性が5年後にも存在するとは限りません。サポート期間が長いほど、過去の依存性が入手できることの重要性は増します。</p>
-<p><strong>規制やセキュリティ要件の厳しい環境で働くチーム。</strong> 過去のリリースに何が入っていたのかを把握する必要があるとき、依存性が保持されていれば再構成と調査は格段に容易になります。</p>
-<p><strong>古いソフトウェアを引き継いだ開発者。</strong> 問題は今日のアプリケーションをビルドすることではなく、5年前のアプリケーションをそもそもビルドできるようにすることだったりします。</p>
-<p>この最後の層で、この話はとても具体的なものになります。</p>
-<p>古いソフトウェアは、エコシステムが先へ進んだことなど気にしません。</p>
-<p>それが作られた当時の世界を、いまも前提としています。</p>
-<p>こうした環境に心当たりがあるなら、次に出てくる疑問はたいてい同じです。</p>
-<h2>よくいただく質問（FAQ）</h2>
-<h3>StableBuildは単なるプルスルーキャッシュですか？</h3>
-<p>厳密には違います。</p>
-<p>StableBuildはDockerについては<strong>プルスルーキャッシュ</strong>の挙動を利用していますが、重要なのは依存性を取得したあとに何が起きるかです。</p>
-<p>アーティファクトは、破棄してよいキャッシュデータではなく、保持すべきものとして扱われます。</p>
-<p>またStableBuildは過去のOSパッケージリポジトリやPythonパッケージリポジトリ、任意のビルドファイルにも対応しているため、カバーする依存性の範囲はDockerだけより広くなります。</p>
-<h3>StableBuildはプライベートDockerレジストリの代わりになりますか？</h3>
-<p>なる場合もありますが、常にそうとは限りません。</p>
-<p>自前のミラーインフラを運用せずに公開コンテナ依存性を保持することが目的なら、その用途専用の<strong>プライベートDockerレジストリ</strong>は不要になり得ます。</p>
-<p>社内イメージ、公開ワークフロー、権限管理、アーティファクトのプロモーションなど、社内用途のためにレジストリを運用しているのであれば、それは別の要件です。</p>
-<h3>StableBuildはビルドの再現性を保証しますか？</h3>
-<p>いいえ。</p>
-<p>そしてこの区別は重要です。</p>
-<p>StableBuildは、依存性という入力を決定的かつ取得可能な状態に保つことを助けます。ビルドには、それ以外の非決定性の要因が残っている可能性があります。</p>
-<p>StableBuildが防ぐのは、再現性が失われる特にありふれた1つのパターン、つまり外部依存性が変わる、あるいは消えるというケースです。</p>
-<h3>StableBuildはSBOMを作ってくれますか？</h3>
-<p>まだです。</p>
-<p>現時点でStableBuildは<strong>SBOM</strong>を生成も検証もしません。</p>
-<p>今日できるのは、ビルドの背後にある依存性を保持し、後からの出自確認、再構成、セキュリティ調査を大幅に実用的にすることです。</p>
-<p><strong>SBOM</strong>の生成は開発中です。完成したビルドのアーティファクトをスキャンするだけに頼るのではなく、StableBuildが元から管理している依存性そのものからSBOMを生成することを目指しています。</p>
-<p>現在の<strong>SBOM</strong>ツールの多くは、ビルド完了後にアーティファクトをスキャンする方式で動作します。StableBuildのアプローチでは、ビルドの過程ですでに把握し保持している依存性情報を使うことになります。</p>
-<h3>StableBuildを使うと依存性を更新できなくなりますか？</h3>
-<p>いいえ。</p>
-<p>いつでも更新できます。</p>
-<p>違うのは、<strong>その変更をいつ起こすかを自分が決められる</strong>という点です。</p>
-<p>新しい依存性をプルし、テストし、アプリケーションを更新し、納得したうえで反映する。</p>
-<p>StableBuildは、ソフトウェアを永久に凍結するためのものではありません。</p>
-<p>依存性の変更を、事故ではなく意図的な行為にするためのものです。</p>
-<h2>すでに手を焼いたビルドで試してみてください</h2>
-<p>StableBuildが役に立つかどうかを知るために、ビルドシステムを作り直す必要はありません。</p>
-<p>依存性の欠落、Docker Hubのレート制限、入手できないパッケージ、外部ファイルのせいで、すでに一度失敗したビルドを用意してください。</p>
-<p>該当する依存性の取得先をStableBuildに向けてください。</p>
-<p>もう一度実行してみてください。</p>
-<p>StableBuildのCommunityプランは現在無料で、1TBのトラフィックつきでリポジトリとミラーを利用できます。もう1つインフラを抱える決断をする前に、このワークフローを試せます。</p>
-<p>それがこのプロダクトの本質です。</p>
-<p>ビルドがいつ変わるかは、あなたのコードが決めるべきです。</p>
-<p>削除されたパッケージ、可変なイメージタグ、レジストリのレート制限、死んだURLに、その判断を委ねる必要はありません。</p>
-<p>すでに手を焼いたビルドで試してみてください。StableBuildの<a href="/pricing">Communityプランは無料</a>なので、<a href="/blog/launching-stablebuild-freeze-and-pin-all-your-dependencies">依存性をピン止め</a>して、その違いをご自身で確かめられます。</p></div></div></div></div><div class="section bg-neutral-200"><div class="container-default w-container"><div class="grid-2-columns mg-bottom-40px"><h2 class="mg-bottom-0">関連記事</h2><a id="w-node-_9b659ebc-5aa3-cf77-51b1-b0b01464a15d-e74052e5" data-w-id="9b659ebc-5aa3-cf77-51b1-b0b01464a15d" href="/blog" class="btn-secondary small w-button">すべての記事を見る<span class="line-rounded-icon link-icon-right"></span></a></div><div class="w-dyn-list"><div role="list" class="grid-2-columns gap-column-52px w-dyn-items"><div role="listitem" class="w-dyn-item"><a data-w-id="da61ef48-08c1-2197-1e75-8f0187163266" href="/blog/stablebuild-launch" class="card blog-link w-inline-block"><div id="w-node-da61ef48-08c1-2197-1e75-8f018716326d-e74052e5" class="blog-card-image-wrapper image-top"><img src="https://cdn.prod.website-files.com/6558cb02ceb72f12e74052f7/65ce320d5d8a5e84a9399533_launch.webp" loading="eager" alt="StableBuildの日本語版を公開しました" sizes="100vw" class="blog-card-image image-right"/></div><div class="blog-card-inner-content bottom"><div class="text-100 mg-bottom-10px">記事</div><h2 class="blog-card-title heading-h3-size">StableBuildの日本語版を公開しました</h2><p class="blog-card-excerpt mg-bottom-24px">ビルドの再現性を高めるためのミラーとレジストリ、StableBuildをローンチしました。Dockerイメージ、OSパッケージ、Pythonパッケージ、そして任意のファイルをピン止め・凍結できます。</p><div class="color-neutral-800">2026年9月7日</div></div></a></div><div role="listitem" class="w-dyn-item"><a data-w-id="da61ef48-08c1-2197-1e75-8f0187163266" href="/blog/deadsnakes-removed-ubuntu-20-04-support" class="card blog-link w-inline-block"><div id="w-node-da61ef48-08c1-2197-1e75-8f018716326d-e74052e5" class="blog-card-image-wrapper image-top"><img src="https://cdn.prod.website-files.com/6558cb02ceb72f12e74052f7/662148cbc8852cc271c70ecf_pypi-frozen-2.png" loading="eager" alt="DeadsnakesがUbuntu 20.04のサポートを終了。既存のビルドはどうなる？" sizes="100vw" class="blog-card-image image-right"/></div><div class="blog-card-inner-content bottom"><div class="text-100 mg-bottom-10px">記事</div><h2 class="blog-card-title heading-h3-size">DeadsnakesがUbuntu 20.04のサポートを終了。既存のビルドはどうなる？</h2><p class="blog-card-excerpt mg-bottom-24px">DeadsnakesがFocal向けパッケージを削除したことで、Ubuntu 20.04上のビルドが動かなくなりました。バージョンを固定していても依存性が消えれば再現できない理由と、その対処法を解説します。</p><div class="color-neutral-800">2026年9月4日</div></div></a></div></div></div></div></div><footer class="footer-wrapper"><img src="https://cdn.prod.website-files.com/6558cb01ceb72f12e7405275/6558cb02ceb72f12e740542c_footer-bg-blur-codely-webflow-ecommerce-template.png" loading="eager" alt="" class="position-absolute footer-blur-bg"/><div class="container-default w-container"><div class="footer-top"><div class="w-layout-grid grid-footer"><div id="w-node-_555684ba-e4a1-9bcd-7e57-7429dc0b6976-dc0b6971"><a href="/" class="footer-logo-wrapper w-inline-block"><img src="https://cdn.prod.website-files.com/6558cb01ceb72f12e7405275/65788a46a63b5d293206aef5_StableBuild%20logo%20white.svg" alt="StableBuild logo" width="700" height="Auto" class="footer-logo"/></a><div class="footer-subscribe-card"><div class="mg-bottom-16px"><div class="text-300 bold color-neutral-100">Subscribe to our newsletter!</div></div><div class="w-form"><form id="wf-form-Footer-Subscribe" name="wf-form-Footer-Subscribe" data-name="Footer Subscribe" method="get" data-wf-page-id="6558cb02ceb72f12e74052e5" data-wf-element-id="555684ba-e4a1-9bcd-7e57-7429dc0b6980"><div name="Form Block"><div class="w-embed w-script"><script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/embed/v2.js"></script>
+<p>元の入力の一部が失われていれば、ビルドを意味ある形で再構築することはできません。</p>
+<p>そして、この問いに答えることは、エンジニアリングチーム以外の第三者から説明を求められたとき、単なる「開発上の利便性」以上の意味を持つことになります。</p>
+<h2>EUサイバーレジリエンス法（CRA）にも関係するのか？</h2>
+<p>はい。ただしStableBuild自体が単体でコンプライアンス適合を提供する製品というわけではありません。</p>
+<p><a href="https://www.cyberresilienceact.eu/regulation.html">EUサイバーレジリエンス法（Cyber Resilience Act: CRA）</a>は、EU域内で販売される「デジタル要素を含む製品」に対してサイバーセキュリティ上の義務を課す法律です。</p>
+<p>なぜこれが重要なのでしょうか？ 自社がEU圏内でソフトウェアや接続機能を持つデジタル製品を販売している場合、CRAによってサイバーセキュリティ、脆弱性報告、ドキュメント作成に関する法的な義務が生じるからです。</p>
+<p>この規制は全般的に2027年12月11日から適用されますが、悪用されている脆弱性や深刻なインシデントに関する一部の報告義務は、それより早い<strong>2026年9月11日</strong>から適用開始されます。</p>
+<p>これにより、コンポーネントの特定、脆弱性の取り扱い、ドキュメント化、ソフトウェアの出所確認は、抽象的なセキュリティ概念ではなく、<strong>日常的な運用上の課題</strong>となります。</p>
+<p>影響を受けるリリースを調査する際、関与している依存関係のバージョンを把握することは大事です。そして、<strong>それらの依存関係を実際に取得できることはさらに重要です。</strong></p>
+<p>StableBuildは、ビルド入力を保存することでこのプロセスを支援します。ただし、製品をCRAに準拠させるものではなく、脆弱性管理、報告プロセス、セキュリティ管理、ドキュメント作成、法的助言に代わるものでもありません。</p>
+<p>StableBuildが解決するのは、より限定されたインフラ上の問題です。</p>
+<p><strong>「調査や再ビルドに必要なアーティファクトが、今もそこにある状態をつくる」</strong></p>
+<p>これは当たり前のように思えますが、リリースから3年後に依存関係が消失したとき、それが決して「当たり前」ではなかったと実感することになります。</p>
+<p>CRAはその重要性を示す一例ですが、再現可能なソフトウェアへのシフトは規制の枠を超えて広がっています。</p>
+<h2>「再現可能なビルド」はソフトウェアサプライチェーンの重要なトピックになりつつある</h2>
+<p>これは単に規制対応だけの話ではありません。</p>
+<p>Debianプロジェクトは何年も前から<a href="/blog/debian-just-mandated-reproducible-builds">再現可能なビルド</a>を推進してきました。Debian 13のリリースノートでは、バイト単位で再現可能なパッケージビルドに向けた大幅な進展が記載されており、インストール済みパッケージの再現性状態を確認する<code>debian-repro-status</code>のようなツールも導入されています。</p>
+<p>これは、ソフトウェアサプライチェーンの扱い方における広範な意識の変化を反映しています。</p>
+<p>もはや、単に「ソースコードはこちらです」と言えるだけでは不十分です。</p>
+<p>チームはますます、次のことを理解する必要があります。</p>
+<p><strong>「どのソースから、どの依存関係の、どのバージョンを使って、どんなビルド環境で作成されたのか？そして、それを再現できるか？」</strong></p>
+<p>StableBuildはその方程式のすべてを解決するわけではありません。「依存関係の保持」という部分を解決します。</p>
+<p>そして上流のインターネットが更新されても、プロダクション環境のソフトウェアがそのまま残っている場合、依存関係の保持は驚くほど重要になります。</p>
+<h2>プライベートDockerレジストリを自前で立てるべきか？</h2>
+<p>解決しようとしている問題によります。</p>
+<p>独自の内部コンテナイメージを公開・管理したり、内部配信ワークフローを構築したり、広範なアーティファクト管理環境を制御したい場合は、<a href="https://www.docker.com/blog/how-to-use-your-own-registry/">プライベートDockerレジストリ</a>が正解となるでしょう。</p>
+<p>StableBuildが解決するのは、より特定の問題です。</p>
+<p><strong>「ミラーインフラ全体を自分たちで運用することなく、外部のビルド依存関係を利用可能かつ変更不可（イミュータブル）に保つにはどうすればよいか？」</strong></p>
+<p>Dockerに関して言えば、StableBuildはDocker Hubの「変更不可能なミラー」および「プルスルーキャッシュ」として機能します。PythonやOSパッケージについては過去のミラーを保持し、URLから取得される任意のファイルも扱います。</p>
+<p>したがって、実際の要件が「依存しているDockerイメージやパッケージが消えたり変わったりするのを防ぎたいだけ」であるならば、そのためだけに別のインフラを構築・運用する必要はないかもしれません。</p>
+<p>また、より広範なリポジトリ管理カテゴリを検討しているなら、ArtifactoryやNexusといったツールも候補に挙がるでしょう。</p>
+<h2>ArtifactoryやNexusとの違いは？</h2>
+<p>すでにArtifactoryやNexusを正常に運用しており、チームが満足しているなら、そのまま使い続けてください。すでに問題を解決しているインフラからわざわざ移行する必要はありません。</p>
+<p>リポジトリマネージャー（ArtifactoryやNexus）は、組織がより広範なアーティファクト管理機能を必要としており、関連するインフラやワークフローを自前で運用できるリソースがある場合に適しています。</p>
+<p>これらを使ったことがない方向けに説明すると、ArtifactoryやNexusは、エンジニアリングチームがソフトウェアパッケージ、コンテナイメージ、その他のビルドアクティファクトを保存・プロキシ・整理・管理するための実績あるシステムであり、多くの大企業で採用されています。</p>
+<p><strong>違いは「それを運用し続けるために何が必要か」という点です。</strong></p>
+<p>要件が「外部依存関係を保存し、変更不可にし、依存関係の保持を『社内の新たなプラットフォームプロジェクト』にすることなくビルドを動かし続けること」という限定的なものである場合、StableBuildは魅力的な選択肢となります。</p>
+<p>特に、「アーティファクトリポジトリの運用」を誰かの業務内容に追加したくない小〜中規模のエンジニアリングチームにとって非常に価値があります。</p>
+<h2>StableBuildはどのような人・チーム向けか？</h2>
+<p>特定のプロファイルだけに限定されるわけではありません。共通しているのは、「将来、同じソフトウェアを再びビルドできるようにすることを重視している」という点です。</p>
+<p>具体的には以下のようなチームが対象となります。</p>
+<ul>
+<li><strong>CI（継続的インテグレーション）を多用するチーム。</strong> パブリックレジストリの制限、障害、依存関係の変更によってビルドが頻繁に落ちる場合、それらの入力をキャッシュして保存することで不安定さを排除できます。</li>
+<li><strong>小〜中規模のエンジニアリングチーム。</strong> 独自の依存関係インフラによる信頼性は欲しいが、レジストリクラスタや過去のパッケージミラー、複数のプロキシを自前で運用したくない場合。</li>
+<li><strong>長期運用されるソフトウェアを保守しているチーム。</strong> 今日存在する依存関係が、5年後にも存在するとは限りません。サポートサイクルが長いほど、過去の依存関係の利用可能性が極めて重要になります。</li>
+<li><strong>規制対象やセキュリティ要件が厳しい環境で働くチーム。</strong> 過去のリリースの内容を正確に把握する必要がある場合、保存された依存関係があれば再構築や調査が格段に容易になります。</li>
+<li><strong>古いソフトウェアを引き継いだデベロッパー。</strong> 問題は「今のアプリケーションをビルドすること」ではなく、「5年前のアプリケーションをなんとかビルドさせること」である場合があります。古いソフトウェアはエコシステムが進化してしまったことなど気にせず、それが作られた当時の世界をそのまま要求してきます。</li>
+</ul>
+<h2>よくある質問（FAQ）</h2>
+<h3>Q. StableBuildは単なる「プルスルーキャッシュ」ですか？</h3>
+<p><strong>いいえ、少し違います。</strong></p>
+<p>Dockerに対してはプルスルーキャッシュの挙動を利用しますが、重要なのは「依存関係を取得した後に何が起きるか」です。アーティファクトは使い捨てのキャッシュデータとしてではなく、<strong>保存・保持</strong>されます。また、過去のOSやPythonのパッケージリポジトリ、任意のビルドファイルもカバーするため、対応領域はDocker単体よりも広範です。</p>
+<h3>Q. プライベートDockerレジストリの代わりになりますか？</h3>
+<p><strong>場合によります。</strong></p>
+<p>目的が「自前でミラーインフラを運用せずにパブリックなコンテナ依存関係を保存すること」であれば、その目的専用のプライベートDockerレジストリを置き換えることができます。一方で、自社内部のイメージ管理、デプロイワークフロー、権限管理、アーティファクトの昇格管理などの用途でレジストリを使っている場合は、要件が異なります。</p>
+<h3>Q. StableBuildを使えば「再現可能なビルド」が保証されますか？</h3>
+<p><strong>いいえ。</strong></p>
+<p>この区別は重要です。StableBuildは「依存関係の入力」を決定的（deterministic）かつ取得可能な状態に保つのを助けますが、ビルド内には依然として他の非決定的な要素が存在する可能性があります。StableBuildが防ぐのは、再現性の失敗における最も一般的な要因の1つである「外部依存関係の変更または消滅」です。</p>
+<h3>Q. StableBuildはSBOMを作成してくれますか？</h3>
+<p><strong>現時点では作成しません。</strong></p>
+<p>現在StableBuildはSBOMソフトウェア部品表（<a href="https://en.wikipedia.org/wiki/Software_supply_chain">Software Bill of Materials</a>）の自動生成や検証は行っていません。今提供しているのは「ビルドの背後にある依存関係を保存し、後からの調査・再構築・セキュリティ検証を現実的にすること」です。</p>
+<p>なお、ソース側で管理している依存関係から直接SBOMを生成する機能は現在開発中です。既存の多くのSBOMツールはビルド完了後の成果物をスキャンしますが、StableBuildのアプローチではビルドプロセスの中で既に把握・保存している依存関係情報を活用する予定です。</p>
+<h3>Q. 依存関係のアップデートができなくなりますか？</h3>
+<p><strong>いいえ、いつでもアップデート可能です。</strong></p>
+<p>違いは、「いつ変更を適用するかを自分たちで決められる」という点です。新しい依存関係を取得し、テストし、アプリケーションを更新し、納得がいった段階で昇格させます。StableBuildはソフトウェアを永遠に凍結するためのものではなく、<strong>依存関係の変更を「事故」ではなく「意図的な選択」にするためのもの</strong>です。</p>
+<h2>すでにトラブルが起きたビルドで試してみてください</h2>
+<p>StableBuildの有用性を理解するために、ビルドシステム全体を再設計する必要はありません。</p>
+<ul>
+<li>依存関係の消失</li>
+<li>Docker Hubのレート制限</li>
+<li>パッケージの非公開化</li>
+<li>外部ファイルのリンク切れ</li>
+</ul>
+<p>などで過去に落ちたことのあるビルドを1つ選んでみてください。</p>
+<p>その依存関係の参照先をStableBuildに向け、もう一度実行してみます。</p>
+<p>StableBuildの<a href="/pricing">Communityプランは現在無料</a>で提供されており、1 TBのトラフィックを含むリポジトリおよびミラーへのアクセスが可能です。新しいインフラ契約を結ぶことなく、ワークフローを試すことができます。</p>
+<p>これが、このプロダクトの真の目的です。</p>
+<p><strong>ビルドが変わるかどうかを決めるのは、あなたの「コード」であるべきです。</strong></p>
+<p>削除されたパッケージ、可変なイメージタグ、レジストリのレート制限、切れたURLなどに、その決定権を与えてはいけません。</p>
+<p>過去に悩まされたビルドで、ぜひ一度試してみてください。</p>
+<p>無料枠を使って<a href="/blog/launching-stablebuild-freeze-and-pin-all-your-dependencies">依存関係をピン止め</a>し、その違いを体感していただけます。</p></div></div></div></div><div class="section bg-neutral-200"><div class="container-default w-container"><div class="grid-2-columns mg-bottom-40px"><h2 class="mg-bottom-0">関連記事</h2><a id="w-node-_9b659ebc-5aa3-cf77-51b1-b0b01464a15d-e74052e5" data-w-id="9b659ebc-5aa3-cf77-51b1-b0b01464a15d" href="/blog" class="btn-secondary small w-button">すべての記事を見る<span class="line-rounded-icon link-icon-right"></span></a></div><div class="w-dyn-list"><div role="list" class="grid-2-columns gap-column-52px w-dyn-items"><div role="listitem" class="w-dyn-item"><a data-w-id="da61ef48-08c1-2197-1e75-8f0187163266" href="/blog/stablebuild-launch" class="card blog-link w-inline-block"><div id="w-node-da61ef48-08c1-2197-1e75-8f018716326d-e74052e5" class="blog-card-image-wrapper image-top"><img src="https://cdn.prod.website-files.com/6558cb02ceb72f12e74052f7/65ce320d5d8a5e84a9399533_launch.webp" loading="eager" alt="StableBuildの日本語版を公開しました" sizes="100vw" class="blog-card-image image-right"/></div><div class="blog-card-inner-content bottom"><div class="text-100 mg-bottom-10px">記事</div><h2 class="blog-card-title heading-h3-size">StableBuildの日本語版を公開しました</h2><p class="blog-card-excerpt mg-bottom-24px">ビルドの再現性を高めるためのミラーとレジストリ、StableBuildをローンチしました。Dockerイメージ、OSパッケージ、Pythonパッケージ、そして任意のファイルをピン止め・凍結できます。</p><div class="color-neutral-800">2026年9月7日</div></div></a></div><div role="listitem" class="w-dyn-item"><a data-w-id="da61ef48-08c1-2197-1e75-8f0187163266" href="/blog/deadsnakes-removed-ubuntu-20-04-support" class="card blog-link w-inline-block"><div id="w-node-da61ef48-08c1-2197-1e75-8f018716326d-e74052e5" class="blog-card-image-wrapper image-top"><img src="https://cdn.prod.website-files.com/6558cb02ceb72f12e74052f7/662148cbc8852cc271c70ecf_pypi-frozen-2.png" loading="eager" alt="DeadsnakesがUbuntu 20.04のサポートを終了。既存のビルドはどうなる？" sizes="100vw" class="blog-card-image image-right"/></div><div class="blog-card-inner-content bottom"><div class="text-100 mg-bottom-10px">記事</div><h2 class="blog-card-title heading-h3-size">DeadsnakesがUbuntu 20.04のサポートを終了。既存のビルドはどうなる？</h2><p class="blog-card-excerpt mg-bottom-24px">DeadsnakesがFocal向けパッケージを削除したことで、Ubuntu 20.04上のビルドが動かなくなりました。バージョンを固定していても依存性が消えれば再現できない理由と、その対処法を解説します。</p><div class="color-neutral-800">2026年9月4日</div></div></a></div></div></div></div></div><footer class="footer-wrapper"><img src="https://cdn.prod.website-files.com/6558cb01ceb72f12e7405275/6558cb02ceb72f12e740542c_footer-bg-blur-codely-webflow-ecommerce-template.png" loading="eager" alt="" class="position-absolute footer-blur-bg"/><div class="container-default w-container"><div class="footer-top"><div class="w-layout-grid grid-footer"><div id="w-node-_555684ba-e4a1-9bcd-7e57-7429dc0b6976-dc0b6971"><a href="/" class="footer-logo-wrapper w-inline-block"><img src="https://cdn.prod.website-files.com/6558cb01ceb72f12e7405275/65788a46a63b5d293206aef5_StableBuild%20logo%20white.svg" alt="StableBuild logo" width="700" height="Auto" class="footer-logo"/></a><div class="footer-subscribe-card"><div class="mg-bottom-16px"><div class="text-300 bold color-neutral-100">Subscribe to our newsletter!</div></div><div class="w-form"><form id="wf-form-Footer-Subscribe" name="wf-form-Footer-Subscribe" data-name="Footer Subscribe" method="get" data-wf-page-id="6558cb02ceb72f12e74052e5" data-wf-element-id="555684ba-e4a1-9bcd-7e57-7429dc0b6980"><div name="Form Block"><div class="w-embed w-script"><script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/embed/v2.js"></script>
 <script>
   hbspt.forms.create({
     region: "na1",
