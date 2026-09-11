@@ -7,7 +7,7 @@ hero: https://cdn.prod.website-files.com/6558cb02ceb72f12e74052f7/6aa36999b4c3a9
 en_url: https://www.stablebuild.com/blog/stablebuild-is-now-a-soracom-technology-partner
 ---
 
-StableBuildは、テクノロジーパートナーとして[SORACOM パートナースペース](https://soracom.jp/support_partners/)に加盟しました。
+StableBuildは、認定済テクノロジーパートナーとして[SORACOM パートナースペース](https://soracom.jp/support_partners/)に加盟しました。
 
 SORACOMのパートナープログラムには、IoTデバイス、ソフトウェア、通信、システムインテグレーションに携わる企業が参加しています。テクノロジーパートナーは、SORACOMプラットフォームと組み合わせて利用できるソフトウェア、SaaS、PaaSなどのサービスを提供します。
 
