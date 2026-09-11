@@ -48,6 +48,15 @@
   </url>
 
   <url>
+    <loc>https://stablebuild.jp/blog/stablebuild-is-now-a-soracom-technology-partner</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://stablebuild.jp/blog/stablebuild-is-now-a-soracom-technology-partner"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.stablebuild.com/blog/stablebuild-is-now-a-soracom-technology-partner"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.stablebuild.com/blog/stablebuild-is-now-a-soracom-technology-partner"/>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
     <loc>https://stablebuild.jp/blog/reproducible-builds-when-dependencies-disappear</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://stablebuild.jp/blog/reproducible-builds-when-dependencies-disappear"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.stablebuild.com/blog/reproducible-builds-when-dependencies-disappear"/>
