@@ -118,7 +118,7 @@ blog/<slug>/index.html       generated post
 
 Run `python3 blog/build.py` after any change (needs the `markdown` package), and
 `python3 blog/build.py --check` to confirm the committed output is current. The generator
-also rewrites the marked blog region of `sitemap.xml`.
+also rewrites the marked blog regions of `sitemap.xml` and `llms.txt`.
 
 ### Front matter
 ```yaml
@@ -158,6 +158,12 @@ Translate per the Translation Guidelines below. Links follow the site's General 
 Located at root. Lists all stablebuild.jp pages with hreflang alternates embedded. Update when adding a new page — add a `<url>` block following the existing pattern. Blog entries sit between the `BEGIN blog` / `END blog` markers and are rewritten by `blog/build.py` — edit them there, not by hand.
 
 After deploying, submit `https://stablebuild.jp/sitemap.xml` to Google Search Console.
+
+### llms.txt
+Located at root. A Markdown map of the site for coding agents and other tools that fetch it
+deliberately — no crawler reads it on its own. The ページ and ドキュメント sections are
+hand-maintained: add a line when adding a page. The ブログ section sits between the
+`BEGIN blog` / `END blog` markers and is rewritten by `blog/build.py`.
 
 ### robots.txt
 Located at root. Allows all crawlers and references the sitemap. No changes needed unless a page should be excluded from indexing.
