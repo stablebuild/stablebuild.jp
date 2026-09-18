@@ -7,7 +7,7 @@ hero: https://cdn.prod.website-files.com/6558cb02ceb72f12e74052f7/6aab77d8ae0e8d
 en_url: https://www.stablebuild.com/blog/minio-images-disappeared-from-docker-hub
 ---
 
-今週初め、私たちのあるサブシステムでスモークテストが失敗し始めました。
+今週初め、私たちの、とあるサブシステムでスモークテストが失敗し始めました。
 
 関連するコードには何も変更を加えておらず、エラーの内容も最近変更した箇所とは無関係でした。原因をたどると、MinIO に行き着きました。
 
@@ -27,7 +27,7 @@ Docker Hub からイメージが削除される前から、MinIO Community Editi
 
 2025年後半には、[MinIO は Community Edition をソースコードのみで提供すると説明していました](https://github.com/minio/minio/discussions/21667)。同年12月には、リポジトリが[メンテナンスモードに移行](https://github.com/minio/minio/commit/27742d4)しました。そして2026年4月25日、[MinIO のリポジトリ](https://github.com/minio/minio)はアーカイブされ、読み取り専用になりました。
 
-現在の README には、Community Edition はソースコードのみで配布されると記載されています。過去のバイナリは引き続き入手できますが、メンテナンスは行われていません。
+現在の README には、Community Edition はソースコードのみで配布されると記載されています。過去のバイナリは引き続き入手できますが、メンテナンスは行われていませんでした。
 
 その後、9月12日ごろから、Docker Hub で `minio/minio` と `minio/mc` をプルできなくなったという報告が出始めました。
 
