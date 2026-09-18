@@ -48,19 +48,19 @@
   </url>
 
   <url>
-    <loc>https://stablebuild.jp/blog/nvidia-cuda-container-tags-disappear-ngc-ghcr-support</loc>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://stablebuild.jp/blog/nvidia-cuda-container-tags-disappear-ngc-ghcr-support"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.stablebuild.com/blog/nvidia-cuda-container-tags-disappear-ngc-ghcr-support"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.stablebuild.com/blog/nvidia-cuda-container-tags-disappear-ngc-ghcr-support"/>
+    <loc>https://stablebuild.jp/blog/minio-images-disappeared-from-docker-hub</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://stablebuild.jp/blog/minio-images-disappeared-from-docker-hub"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.stablebuild.com/blog/minio-images-disappeared-from-docker-hub"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.stablebuild.com/blog/minio-images-disappeared-from-docker-hub"/>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
-    <loc>https://stablebuild.jp/blog/minio-images-disappeared-from-docker-hub</loc>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://stablebuild.jp/blog/minio-images-disappeared-from-docker-hub"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.stablebuild.com/blog/minio-images-disappeared-from-docker-hub"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.stablebuild.com/blog/minio-images-disappeared-from-docker-hub"/>
+    <loc>https://stablebuild.jp/blog/nvidia-cuda-container-tags-disappear-ngc-ghcr-support</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://stablebuild.jp/blog/nvidia-cuda-container-tags-disappear-ngc-ghcr-support"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.stablebuild.com/blog/nvidia-cuda-container-tags-disappear-ngc-ghcr-support"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.stablebuild.com/blog/nvidia-cuda-container-tags-disappear-ngc-ghcr-support"/>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>

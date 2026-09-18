@@ -1,6 +1,6 @@
 ---
 title: MinIOのイメージがDocker Hubから消えました
-date: 2026-09-16
+date: 2026-09-18
 category: 記事
 description: MinIOのDocker Hubイメージが利用できなくなり、バージョンを固定していたビルドも失敗するようになりました。何が起きたのか、Quayへの切り替え方法、そしてバージョンの固定だけでは永続性を保証できない理由を解説します。
 hero: https://cdn.prod.website-files.com/6558cb02ceb72f12e74052f7/6aab77d8ae0e8d74da4560ce_minio_icecube-p-800.png
