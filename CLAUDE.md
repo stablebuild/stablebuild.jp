@@ -101,6 +101,11 @@ Drop the long-vowel mark on katakana loanwords that take it optionally:
 
 - **ユーザ** — never ユーザー (applies to compounds too: ユーザ数)
 
+Put a space on each side of a Latin word so it does not collide with the Japanese around
+it: 「Docker Hub から `minio/minio` を」「StableBuild の Docker ミラー」. A version number
+belongs to the word before it (CUDA 11 が, Ubuntu 20.04 の), but a bare number with a
+Japanese counter takes no space (2025年, 5分, 月額199ドル, 1つ).
+
 Plan names stay in English, matching the pricing page: Community / Team / Professional.
 
 ## Blog
