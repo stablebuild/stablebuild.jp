@@ -48,8 +48,8 @@
   </url>
 
   <url>
-    <loc>https://stablebuild.jp/blog/ros1-is-eol</loc>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://stablebuild.jp/blog/ros1-is-eol"/>
+    <loc>https://stablebuild.jp/blog/ros-1-is-eol-and-deployed-robots-still-need-its-packages</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://stablebuild.jp/blog/ros-1-is-eol-and-deployed-robots-still-need-its-packages"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.stablebuild.com/blog/ros-1-is-eol-and-deployed-robots-still-need-its-packages"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.stablebuild.com/blog/ros-1-is-eol-and-deployed-robots-still-need-its-packages"/>
     <changefreq>yearly</changefreq>
