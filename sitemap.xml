@@ -48,9 +48,10 @@
   </url>
 
   <url>
-    <loc>https://stablebuild.jp/blog/why-stablebuild-exists</loc>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://stablebuild.jp/blog/why-stablebuild-exists"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://stablebuild.jp/blog/why-stablebuild-exists"/>
+    <loc>https://stablebuild.jp/blog/why-we-built-stablebuild</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://stablebuild.jp/blog/why-we-built-stablebuild"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.stablebuild.com/blog/why-we-built-stablebuild"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.stablebuild.com/blog/why-we-built-stablebuild"/>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>

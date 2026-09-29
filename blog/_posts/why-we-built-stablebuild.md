@@ -3,6 +3,8 @@ title: StableBuild が生まれた理由：本番環境のビルド障害から�
 date: 2026-09-29
 category: 記事
 description: Edge Impulse の本番環境で繰り返されたビルド障害から StableBuild が生まれた経緯と、依存関係を保存することがビルドの再現性に欠かせない理由を、CEO 木本真理究の経歴とともに紹介します。
+hero: https://cdn.prod.website-files.com/6558cb02ceb72f12e74052f7/6abb5151d75e6ff3f205bb9f_696A5184.jpg
+en_url: https://www.stablebuild.com/blog/why-we-built-stablebuild
 ---
 
 StableBuild の出発点は、事業のプレゼン資料ではありませんでした。
