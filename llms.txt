@@ -8,7 +8,7 @@
 ## ページ
 
 - [ホーム](https://stablebuild.jp/): 製品概要、対応リポジトリ、導入企業とパートナー。
-- [機能](https://stablebuild.jp/features): Dockerミラー、apt/apkパッケージ、Pythonパッケージ、任意のファイルのピン止めと、開発ロードマップ。
+- [機能](https://stablebuild.jp/features): Dockerミラー、apt/apkパッケージ、Pythonパッケージ、任意のファイルのピン止め。
 - [料金](https://stablebuild.jp/pricing): Community / Team / Professional / Enterprise の各プランと価格。
 - [会社概要](https://stablebuild.jp/company.html): ステイブルビルド合同会社の会社概要。
 
