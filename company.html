@@ -71,6 +71,43 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .location-address:last-child {
     margin-bottom: 0;
   }
+  .message-section {
+    max-width: 800px;
+    margin: 0 auto 80px;
+    color: #374151;
+    line-height: 1.9;
+  }
+  .company-heading,
+  .message-section h2 {
+    color: #000;
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .message-body {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+  }
+  .message-photo {
+    flex: 0 0 240px;
+    width: 240px;
+    height: auto;
+    border-radius: 8px;
+  }
+  @media (max-width: 767px) {
+    .message-body {
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+  }
+  .message-signature {
+    text-align: right;
+    margin-top: 24px;
+  }
+  .message-link {
+    margin-top: 24px;
+  }
   </style>
 </head>
 <body>
@@ -112,6 +149,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="company-section">
     <div class="container-default w-container">
       <h1 style="color: #000; text-align: center; margin-bottom: 48px;">Company Profile</h1>
+      <div class="message-section">
+        <h2>代表メッセージ</h2>
+        <div class="message-body">
+          <img src="index_files/ceo-mariku-kimoto.jpg" alt="CEO 木本 真理究" width="240" height="360" loading="lazy" class="message-photo">
+          <div>
+            <p>StableBuild は、私たちのお客様の本番環境で繰り返されたビルド障害から生まれました。アプリケーションコードを変えていなくても、外部の依存関係が変わったり消えたりするだけで、昨日までビルドできたソフトウェアが今日はビルドできなくなる。その対応に、経験豊富なエンジニアの時間が何度も費やされていました。</p>
+            <p>私はこれまで、組み込みシステム、IoT、医療技術、インフラなど、長期間の信頼性が求められるシステムに携わってきました。システムを動かし続けるには、そのシステムが依存するものも管理できなければなりません。StableBuild は、各チームが個別に構築・運用してきた基盤を、共通の基盤として提供します。</p>
+            <p class="message-signature">StableBuild, Inc.<br>CEO 木本 真理究</p>
+            <p class="message-link"><a href="/blog/why-we-built-stablebuild/">StableBuild が生まれた理由を読む →</a></p>
+          </div>
+        </div>
+      </div>
+      <h2 class="company-heading">会社概要</h2>
       <table class="company-table">
         <tr>
           <th>会社名</th>
