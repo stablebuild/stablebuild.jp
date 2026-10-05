@@ -48,6 +48,15 @@
   </url>
 
   <url>
+    <loc>https://stablebuild.jp/blog/minio-pulls-from-quay-now-return-unauthorized</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://stablebuild.jp/blog/minio-pulls-from-quay-now-return-unauthorized"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.stablebuild.com/blog/minio-pulls-from-quay-now-return-unauthorized"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.stablebuild.com/blog/minio-pulls-from-quay-now-return-unauthorized"/>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
     <loc>https://stablebuild.jp/blog/why-we-built-stablebuild</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://stablebuild.jp/blog/why-we-built-stablebuild"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.stablebuild.com/blog/why-we-built-stablebuild"/>
