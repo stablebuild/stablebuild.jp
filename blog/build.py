@@ -14,6 +14,7 @@ import itertools
 import pathlib
 import re
 import sys
+import urllib.parse
 
 try:
     import markdown
@@ -215,7 +216,7 @@ def render_post(post, others):
                 WF_PAGE='6558cb02ceb72f12e74052e5',
                 TITLE=html.escape(f'{post["title"]} - {BRAND} - ブログ'),
                 DESCRIPTION=html.escape(meta_description(post)),
-                OG_IMAGE=post['hero'] or DEFAULT_OG_IMAGE,
+                OG_IMAGE=urllib.parse.urljoin(BASE, post['hero']) if post['hero'] else DEFAULT_OG_IMAGE,
                 OG_URL=f'{BASE}{post["url"]}',
                 HEAD_LINKS=head_links(post['url'], post['en_url']),
                 EN_URL=post['en_url'] or f'{EN_BASE}/blog',

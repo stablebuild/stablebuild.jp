@@ -116,6 +116,7 @@ of the site, the HTML under `blog/` is generated — edit the Markdown, never th
 ```
 blog/_posts/<slug>.md        source, one file per post
 blog/_template/*.html        page shell and card markup
+blog/images/<slug>.png       hero for a post whose image is not on Webflow's CDN
 blog/build.py                the generator
 blog/index.html              generated listing
 blog/<slug>/index.html       generated post
@@ -132,7 +133,7 @@ title: 記事のタイトル
 date: 2026-05-11          # YYYY-MM-DD, drives ordering and the 2026年5月11日 byline
 category: 記事
 description: 一文の要約   # meta description and the excerpt on listing cards
-hero: https://…           # optional; falls back to the site OG image
+hero: https://…           # optional; a Webflow CDN URL or /blog/images/<slug>.png
 en_url: https://www.stablebuild.com/blog/<slug>   # omit for Japanese-original posts
 featured: true            # optional, one post max; defaults to the newest
 ---
