@@ -3,6 +3,7 @@ title: StableBuild の SBOM 機能でビルド時の依存関係を記録する
 date: 2026-10-06
 category: 記事
 description: StableBuild の SBOM 機能は、ビルドで取得した依存関係をビルド ID ごとに記録し、CycloneDX 形式で出力します。最終成果物に残らないビルド依存関係も記録できる仕組みと設定方法、SBOM 導入の手引や CRA との関係を紹介します。
+featured: true
 hero: /blog/images/record-build-dependencies-with-stablebuild-sbom.png
 ---
 

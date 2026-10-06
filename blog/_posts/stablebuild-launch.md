@@ -2,7 +2,6 @@
 title: StableBuild の日本語版を公開しました
 date: 2026-09-07
 category: 記事
-featured: true
 hero: https://cdn.prod.website-files.com/6558cb02ceb72f12e74052f7/65ce320d5d8a5e84a9399533_launch.webp
 description: ビルドの再現性を高めるためのミラーとレジストリ、StableBuild をローンチしました。Docker イメージ、OS パッケージ、Python パッケージ、そして任意のファイルをピン止め・凍結できます。
 ---
