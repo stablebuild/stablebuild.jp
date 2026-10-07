@@ -48,6 +48,15 @@
   </url>
 
   <url>
+    <loc>https://stablebuild.jp/blog/docker-registry-mirror-keeping-images-your-builds-depend-on</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://stablebuild.jp/blog/docker-registry-mirror-keeping-images-your-builds-depend-on"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.stablebuild.com/blog/docker-registry-mirror-keeping-images-your-builds-depend-on"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.stablebuild.com/blog/docker-registry-mirror-keeping-images-your-builds-depend-on"/>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
     <loc>https://stablebuild.jp/blog/record-build-dependencies-with-stablebuild-sbom</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://stablebuild.jp/blog/record-build-dependencies-with-stablebuild-sbom"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://stablebuild.jp/blog/record-build-dependencies-with-stablebuild-sbom"/>
