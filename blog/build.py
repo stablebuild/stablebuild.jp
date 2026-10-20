@@ -4,7 +4,7 @@
     python3 blog/build.py            # write the pages, sitemap.xml and llms.txt
     python3 blog/build.py --check    # fail if anything is out of date
 
-Requires the `markdown` package.
+Requires markdown 3.10.2: python3 -m pip install markdown==3.10.2
 """
 
 import argparse
@@ -19,7 +19,7 @@ import urllib.parse
 try:
     import markdown
 except ImportError:
-    sys.exit('blog/build.py needs the markdown package: python3 -m pip install markdown')
+    sys.exit('blog/build.py needs markdown 3.10.2: python3 -m pip install markdown==3.10.2')
 
 BLOG = pathlib.Path(__file__).resolve().parent
 SITE = BLOG.parent
