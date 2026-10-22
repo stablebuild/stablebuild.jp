@@ -48,6 +48,15 @@
   </url>
 
   <url>
+    <loc>https://stablebuild.jp/blog/pypi-mirror-practical-guide-reliable-python-package-installs</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://stablebuild.jp/blog/pypi-mirror-practical-guide-reliable-python-package-installs"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.stablebuild.com/blog/pypi-mirror-practical-guide-reliable-python-package-installs"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.stablebuild.com/blog/pypi-mirror-practical-guide-reliable-python-package-installs"/>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
     <loc>https://stablebuild.jp/blog/public-api-keys-for-reproducible-open-source-builds</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://stablebuild.jp/blog/public-api-keys-for-reproducible-open-source-builds"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.stablebuild.com/blog/public-api-keys-for-reproducible-open-source-builds"/>
