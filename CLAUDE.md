@@ -20,7 +20,7 @@
 - Exception: pages that have a Japanese version on stablebuild.jp should use a **relative** link (e.g. `/features` once `features/index.html` exists)
 
 ### Docs link
-- Always use `https://stablebuild.gitbook.io/ja` (never `https://docs.stablebuild.com/`)
+- Always use `https://docs.stablebuild.jp/` (never `https://docs.stablebuild.com/`)
 
 ### Header links
 - Nav links (Pricing, Blog) should be **absolute** unless a Japanese version exists, in which case use relative
@@ -156,7 +156,7 @@ Webflow's site search, category badges and pagination are dropped: they depend o
 ### Writing the Markdown
 Translate per the Translation Guidelines below. Links follow the site's General rule, so
 `/pricing`, `/blog/<slug>` and `/` stay relative, docs point at
-`https://stablebuild.gitbook.io/ja`, and dashboard links carry `?lang=ja`.
+`https://docs.stablebuild.jp/`, and dashboard links carry `?lang=ja`.
 
 ## SEO Infrastructure
 
