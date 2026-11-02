@@ -38,5 +38,5 @@
 
 ## ドキュメント
 
-- [ドキュメント](https://stablebuild.gitbook.io/ja): 導入手順、各ミラーの使い方、SSO、請求。
+- [ドキュメント](https://docs.stablebuild.jp/): 導入手順、各ミラーの使い方、SSO、請求。
 - [ドキュメントの llms.txt](https://stablebuild.gitbook.io/ja/llms.txt): ドキュメント全ページの一覧。
