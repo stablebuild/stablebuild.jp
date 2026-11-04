@@ -53,7 +53,7 @@ FROM ubuntu:24.04
 
 ## **StableBuild が保持するイメージ**
 
-StableBuild の Docker ミラーは、タグを初めてサービス経由で取得したときのイメージを保持します。その後は、上流で同じタグの内容が変わっても、保存済みのイメージを返します。[公式ドキュメント](https://stablebuild.gitbook.io/ja/mirrors-and-caches/docker-mirror)では、キャッシュしたイメージを自動で削除しないと説明されています。
+StableBuild の Docker ミラーは、タグを初めてサービス経由で取得したときのイメージを保持します。その後は、上流で同じタグの内容が変わっても、保存済みのイメージを返します。[公式ドキュメント](https://stablebuild.gitbook.io/stablebuild-docs/docs/ja/mirrors-and-caches/docker-mirror)では、キャッシュしたイメージを自動で削除しないと説明されています。
 
 更新する場合は、利用者がダッシュボードで該当するキャッシュ済みタグを削除し、次のプルで上流から再取得できます。チームが更新のタイミングを管理できるため、検証の手順に合わせて更新を進められます。
 
@@ -115,7 +115,7 @@ Docker Hub のイメージは、次のように StableBuild のミラードメ�
 
 FROM your-domain.dockermirror.stablebuild.com/ubuntu:24.04
 
-Dockerfile を変更しにくい場合は、Docker デーモンのレジストリミラーとして設定する方法もあります。この設定は Docker Hub 向けです。他の対応レジストリを利用するときは、それぞれの取得元を指定する方法を[公式ドキュメント](https://stablebuild.gitbook.io/ja/mirrors-and-caches/docker-mirror)で確認してください。
+Dockerfile を変更しにくい場合は、Docker デーモンのレジストリミラーとして設定する方法もあります。この設定は Docker Hub 向けです。他の対応レジストリを利用するときは、それぞれの取得元を指定する方法を[公式ドキュメント](https://stablebuild.gitbook.io/stablebuild-docs/docs/ja/mirrors-and-caches/docker-mirror)で確認してください。
 
 StableBuild は、イメージで提供されている各アーキテクチャの内容を保存します。開発者の PC が ARM、デプロイ先が x86 であるなど、異なるアーキテクチャを使う環境でも重要な機能です。
 
@@ -141,4 +141,4 @@ StableBuild は、イメージで提供されている各アーキテクチャ�
 
 StableBuild の無料 Community プランでは、プランに定められた通信量とストレージの範囲内で、依存イメージの保持を試せます。ミラー経由でイメージを保存し、新しい環境でもそのコピーを取得してビルドできることを確認してください。
 
-詳しくは、[StableBuild の Docker ミラーのドキュメント](https://stablebuild.gitbook.io/ja/mirrors-and-caches/docker-mirror)と[料金ページ](https://stablebuild.jp/pricing)をご覧ください。
+詳しくは、[StableBuild の Docker ミラーのドキュメント](https://stablebuild.gitbook.io/stablebuild-docs/docs/ja/mirrors-and-caches/docker-mirror)と[料金ページ](https://stablebuild.jp/pricing)をご覧ください。

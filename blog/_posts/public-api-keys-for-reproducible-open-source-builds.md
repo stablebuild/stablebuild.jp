@@ -11,7 +11,7 @@ StableBuild の API キーは、通常は非公開で使うものです。社内
 
 Dockerfile やビルド設定は公開できても、リポジトリをクローンした人が StableBuild 経由で同じバージョンのパッケージやキャッシュ済みのコンテナを取得するには、認証情報が必要になります。
 
-そこで用意したのが[公開 API キー](https://stablebuild.gitbook.io/ja/product/public-api-keys)です。プロジェクトと一緒に配布することを前提にしたキーで、リポジトリにそのままコミットできます。ビルドが StableBuild 経由で取得する依存関係をあらかじめ記録しておけば、誰でも同じ依存関係を取得できます。組織の StableBuild キャッシュにあるほかの依存関係まで公開されることはありません。
+そこで用意したのが[公開 API キー](https://stablebuild.gitbook.io/stablebuild-docs/docs/ja/product/public-api-keys)です。プロジェクトと一緒に配布することを前提にしたキーで、リポジトリにそのままコミットできます。ビルドが StableBuild 経由で取得する依存関係をあらかじめ記録しておけば、誰でも同じ依存関係を取得できます。組織の StableBuild キャッシュにあるほかの依存関係まで公開されることはありません。
 
 ## **依存関係を記録する仕組み**
 
@@ -75,4 +75,4 @@ RUN curl -O \
 
 オープンソースプロジェクトを運営していて、コントリビューターにもピン止めした依存関係でビルドしてもらいたい場合は、[StableBuild アカウントを作成](/pricing)して公開 API キーを追加し、書き込み期間中にビルドを一度実行してみてください。これでプロジェクトの依存関係が記録されます。
 
-詳しい設定手順は、[公開 API キーのドキュメント](https://stablebuild.gitbook.io/ja/product/public-api-keys)をご覧ください。
+詳しい設定手順は、[公開 API キーのドキュメント](https://stablebuild.gitbook.io/stablebuild-docs/docs/ja/product/public-api-keys)をご覧ください。

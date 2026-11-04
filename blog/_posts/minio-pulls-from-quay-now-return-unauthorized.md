@@ -74,4 +74,4 @@ MinIO イメージが Docker Hub から消えたとき、Quay は別の取得元
 
 Docker Hub からプルできなくなったとき、Quay は実用的な代替手段になりました。その後、Quay からの認証なしのプルも失敗するようになりましたが、StableBuild にコピーを保存していたため、同じイメージを再び取得できました。
 
-上流からまだ取得できる依存性については、[StableBuild の無料アカウントを作成](/pricing)して、[Docker ミラー](https://stablebuild.gitbook.io/ja/mirrors-and-caches/docker-mirror)経由でイメージを保存してみてください。
+上流からまだ取得できる依存性については、[StableBuild の無料アカウントを作成](/pricing)して、[Docker ミラー](https://stablebuild.gitbook.io/stablebuild-docs/docs/ja/mirrors-and-caches/docker-mirror)経由でイメージを保存してみてください。

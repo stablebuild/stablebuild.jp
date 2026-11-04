@@ -40,7 +40,7 @@ StableBuild は、サービス経由で実際にダウンロードされた依�
 
 製品の構成を把握する際には、必要に応じて成果物のスキャン結果や供給元の構成情報と組み合わせて利用します。
 
-出典：[StableBuild の SBOM ドキュメント](https://stablebuild.gitbook.io/en/product/sbom)
+出典：[StableBuild の SBOM ドキュメント](https://stablebuild.gitbook.io/stablebuild-docs/docs/ja/product/sbom)
 
 ## **日本企業の SBOM 導入と CRA への対応**
 
@@ -80,7 +80,7 @@ CI では実行ごとに固有のビルド ID を割り当て、その実行で�
 
 生成されたファイルは、`sbom-<ビルドID>.cdx.json` という名前でダウンロードされます。取り込み先の管理ツールが対応する形式や必要な項目を確認し、既存の管理プロセスで利用できます。
 
-依存関係の取得と記録を同じ流れに組み込めるため、一覧を手作業で集める負担を減らせます。ビルド ID の文字数制限や CI での設定例は、[公式ドキュメント](https://stablebuild.gitbook.io/ja/product/sbom)に掲載されています。
+依存関係の取得と記録を同じ流れに組み込めるため、一覧を手作業で集める負担を減らせます。ビルド ID の文字数制限や CI での設定例は、[公式ドキュメント](https://stablebuild.gitbook.io/stablebuild-docs/docs/ja/product/sbom)に掲載されています。
 
 ## **Enterprise プランで利用する**
 
@@ -88,4 +88,4 @@ StableBuild では、依存関係の固定・保持と **SBOM** 生成を同じ�
 
 **SBOM** 機能は Enterprise プランで利用できます。まずは一つの CI ビルドで試し、記録された依存関係と自社で把握したい範囲を照合すると、運用への組み込み方を検討できます。
 
-設定方法と出力例は、[StableBuild の SBOM ドキュメント](https://stablebuild.gitbook.io/ja/product/sbom)をご覧ください。
+設定方法と出力例は、[StableBuild の SBOM ドキュメント](https://stablebuild.gitbook.io/stablebuild-docs/docs/ja/product/sbom)をご覧ください。

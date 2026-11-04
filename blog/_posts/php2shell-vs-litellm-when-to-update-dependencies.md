@@ -19,7 +19,7 @@ PHP の[公式告知](https://www.php.net/archive/2026.php#2026-10-21-5)も「�
 
 修正版は PHP 8.2.35、8.3.36、8.4.27、8.5.12 です。ソースからビルドしているユーザや、LTS ベンダーのサポートを受けていないユーザ向けには、7.4、8.0、8.1 への最小限のバックポートもソースで公開されています。Debian も同日の日本時間23時ごろには、両方の CVE を修正した [`php8.2` 8.2.35-1~deb12u1](https://tracker.debian.org/news/1813676/accepted-php82-8235-1deb12u1-source-into-oldstable-security/) を `bookworm-security` に取り込んでいます。
 
-StableBuild は、Debian、Ubuntu、Alpine のパッケージリポジトリの[スナップショットを毎日保存](https://stablebuild.gitbook.io/ja/mirrors-and-caches/os-package-registry-ubuntu-debian-alpine)しています。修正版が出る前の日付に固定したビルドは、当然ながら修正前の `php8.2` を使い続けます。
+StableBuild は、Debian、Ubuntu、Alpine のパッケージリポジトリの[スナップショットを毎日保存](https://stablebuild.gitbook.io/stablebuild-docs/docs/ja/mirrors-and-caches/os-package-registry-ubuntu-debian-alpine)しています。修正版が出る前の日付に固定したビルドは、当然ながら修正前の `php8.2` を使い続けます。
 
 修正版の `8.2.35-1~deb12u1` は、固定日時 `2026-10-22T08:40:01Z` のスナップショットに含まれています。固定日時をここまで進めて再ビルドし、テストします。問題がなければ、以降はこのスナップショットを基準に同じビルドを再現できます。PHP2Shell のような脆弱性では、こうして依存関係を意識的に新しくしていく必要があります。
 
@@ -31,7 +31,7 @@ wheel がアップロードされたのは日本時間の20時39分から20時40
 
 LiteLLM の説明では、攻撃者は不正に入手した開発者の GitHub 認証情報を使ってリリースパイプラインを書き換え、悪意のあるリリースを承認していました。GitHub 上の公式 `v1.107.0` タグに問題はなく、PyPI に上がったファイルは、攻撃者が管理するリポジトリからビルドされたものでした。
 
-StableBuild の [PyPI スナップショット](https://stablebuild.gitbook.io/ja/mirrors-and-caches/pypi-mirror)を10月20日に固定していれば、ビルドから `1.107.0` はそもそも見えません。依存関係は、固定した日付時点の PyPI の状態をもとに解決されるからです。
+StableBuild の [PyPI スナップショット](https://stablebuild.gitbook.io/stablebuild-docs/docs/ja/mirrors-and-caches/pypi-mirror)を10月20日に固定していれば、ビルドから `1.107.0` はそもそも見えません。依存関係は、固定した日付時点の PyPI の状態をもとに解決されるからです。
 
 依存関係のクールダウンも、まさにこうした事態に備える機能です。新しく公開されたパッケージは、設定した時間が経つまでビルドで使えないようにしておけます。クールダウンを2時間にしていれば、`1.107.0` は待機中のまま削除され、ビルドに入ることはありませんでした。
 

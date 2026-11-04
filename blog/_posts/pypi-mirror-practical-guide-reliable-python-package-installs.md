@@ -73,7 +73,7 @@ pip install \
 
 完全な日次インデックスの保存は、2023年9月21日から行われています。それ以前の日付は、保持している情報から再構成されるため、当時の状態と異なる場合があります。保存前に削除されたパッケージなどは、取得できないことがあります。
 
-出典：[StableBuild PyPIミラーのドキュメント](https://stablebuild.gitbook.io/ja/mirrors-and-caches/pypi-mirror)
+出典：[StableBuild PyPIミラーのドキュメント](https://stablebuild.gitbook.io/stablebuild-docs/docs/ja/mirrors-and-caches/pypi-mirror)
 
 ## **pipでミラーを設定する**
 
@@ -131,4 +131,4 @@ Poetryのソース設定はパッケージの標準メタデータには含ま�
 
 必要なのがオフラインでの利用なら、必要なファイルをそろえた同期型ミラーが候補になります。重複ダウンロードの削減が目的なら、キャッシュが役立ちます。過去のプロジェクトを当時利用可能だったパッケージで解決したい場合は、履歴型のインデックスが検討対象になります。
 
-StableBuildを利用する場合は、[PyPIミラーの設定ガイド](https://stablebuild.gitbook.io/ja/mirrors-and-caches/pypi-mirror)に沿って、日付指定またはliveのエンドポイントを設定してください。CIに組み込む前に、キャッシュのない新しい環境でビルドし、意図した依存関係が選ばれることを確認します。
+StableBuildを利用する場合は、[PyPIミラーの設定ガイド](https://stablebuild.gitbook.io/stablebuild-docs/docs/ja/mirrors-and-caches/pypi-mirror)に沿って、日付指定またはliveのエンドポイントを設定してください。CIに組み込む前に、キャッシュのない新しい環境でビルドし、意図した依存関係が選ばれることを確認します。
