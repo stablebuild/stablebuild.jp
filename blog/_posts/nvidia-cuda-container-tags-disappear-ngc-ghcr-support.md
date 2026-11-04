@@ -126,7 +126,7 @@ CUDA は、GPU を汎用計算に利用するための NVIDIA の並列コンピ
 
 **ただし、ダイジェストが答えるのは『どのイメージか』という問いです。それだけでは、『3年後もレジストリがそのイメージを提供しているか』という問いには答えられません。**
 
-[StableBuild の Docker ミラーに関するドキュメント](https://stablebuild.gitbook.io/ja/mirrors-and-caches/docker-mirror)でも、同じ違いを説明しています。ハッシュで固定すれば同一性は守れますが、イメージ自体が上流側から削除されれば、ビルドが失敗する可能性は残ります。
+[StableBuild の Docker ミラーに関するドキュメント](https://stablebuild.gitbook.io/stablebuild-docs/docs/ja/mirrors-and-caches/docker-mirror)でも、同じ違いを説明しています。ハッシュで固定すれば同一性は守れますが、イメージ自体が上流側から削除されれば、ビルドが失敗する可能性は残ります。
 
 ### 3. 保持によって継続的な可用性を確保する
 

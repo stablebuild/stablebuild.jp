@@ -100,7 +100,7 @@ RUN bash /opt/sb-apt.sh load-apt-sources ubuntu ros1
 
 RUN apt update &amp;&amp; apt install -y python3-rosdep
 </code></pre>
-<p>StableBuild の ROS 1 対応は Ubuntu 20.04 Focal が前提です。StableBuild では、Ubuntu 20.04 について2026年7月23日までのスナップショットを利用できます（<a href="https://stablebuild.gitbook.io/ja/mirrors-and-caches/os-package-registry-ubuntu-debian-alpine">ドキュメント</a>を参照）。そのため、ROS 1 のビルドでは同日以前の日時を指定する必要があります。</p>
+<p>StableBuild の ROS 1 対応は Ubuntu 20.04 Focal が前提です。StableBuild では、Ubuntu 20.04 について2026年7月23日までのスナップショットを利用できます（<a href="https://stablebuild.gitbook.io/stablebuild-docs/docs/ja/mirrors-and-caches/os-package-registry-ubuntu-debian-alpine">ドキュメント</a>を参照）。そのため、ROS 1 のビルドでは同日以前の日時を指定する必要があります。</p>
 <p>ROS 2 も同じ仕組みで利用できます。たとえば、次のように設定します。</p>
 <pre class="richtext-code-block"><code class="language-dockerfile">FROM ubuntu:22.04
 

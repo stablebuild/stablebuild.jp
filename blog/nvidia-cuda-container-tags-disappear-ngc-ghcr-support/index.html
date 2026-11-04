@@ -125,7 +125,7 @@ manifest unknown: manifest unknown
 <p><a href="https://docs.github.com/ja/packages/working-with-a-github-packages-registry/working-with-the-container-registry">GitHub の Container Registry ドキュメント</a>では、同一内容のイメージを確実に指定する必要がある場合、SHA ダイジェストで pull することを推奨しています。</p>
 <p>これは適切な方法です。</p>
 <p><strong>ただし、ダイジェストが答えるのは『どのイメージか』という問いです。それだけでは、『3年後もレジストリがそのイメージを提供しているか』という問いには答えられません。</strong></p>
-<p><a href="https://stablebuild.gitbook.io/ja/mirrors-and-caches/docker-mirror">StableBuild の Docker ミラーに関するドキュメント</a>でも、同じ違いを説明しています。ハッシュで固定すれば同一性は守れますが、イメージ自体が上流側から削除されれば、ビルドが失敗する可能性は残ります。</p>
+<p><a href="https://stablebuild.gitbook.io/stablebuild-docs/docs/ja/mirrors-and-caches/docker-mirror">StableBuild の Docker ミラーに関するドキュメント</a>でも、同じ違いを説明しています。ハッシュで固定すれば同一性は守れますが、イメージ自体が上流側から削除されれば、ビルドが失敗する可能性は残ります。</p>
 <h3>3. 保持によって継続的な可用性を確保する</h3>
 <p>長期間維持するビルドには、同一性と保持の両方が必要です。つまり、正確なイメージを特定できることと、必要なときにそのコピーが残っていることです。</p>
 <p>この隔たりを埋めるために設計されたのが、不変のプルスルーキャッシュです。</p>

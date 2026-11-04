@@ -66,7 +66,7 @@ libvips アーカイブは、お客様が `package.json` に直接追加した�
 
 幸い、sharp では libvips のダウンロード元を環境変数で変更できました。
 
-お客様はこれを使い、ダウンロードを [StableBuild のファイルミラー](https://stablebuild.gitbook.io/ja/mirrors-and-caches/file-mirror)経由に切り替えました。設定はおおよそ次のとおりです。
+お客様はこれを使い、ダウンロードを [StableBuild のファイルミラー](https://stablebuild.gitbook.io/stablebuild-docs/docs/ja/mirrors-and-caches/file-mirror)経由に切り替えました。設定はおおよそ次のとおりです。
 
 ```dockerfile
 ENV npm_config_sharp_libvips_binary_host=https://YOUR-DOMAIN.httpcache.stablebuild.com/sharp-cache/https://github.com/example/project/releases/download
@@ -107,4 +107,4 @@ StableBuild のファイルミラーを使えば、こうした URL から取得
 
 今回のお客様の場合、npm の依存関係を通じて、GitHub Releases 上のアーティファクトにも依存していました。ダウンロードを StableBuild 経由に切り替えたことで、以降のビルドは GitHub に頼らず、キャッシュ済みのコピーを使えるようになりました。
 
-GitHub などで公開されているファイルにビルドが依存している場合は、[StableBuild の無料アカウントを作成](/pricing)し、[ファイルミラー](https://stablebuild.gitbook.io/ja/mirrors-and-caches/file-mirror)経由で保存してみてください。
+GitHub などで公開されているファイルにビルドが依存している場合は、[StableBuild の無料アカウントを作成](/pricing)し、[ファイルミラー](https://stablebuild.gitbook.io/stablebuild-docs/docs/ja/mirrors-and-caches/file-mirror)経由で保存してみてください。

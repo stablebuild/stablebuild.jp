@@ -41,4 +41,4 @@ ECR Public には、プル回数の制限もあります。現在の AWS の上�
 
 一度キャッシュしたイメージは、ECR Public や配布元が提供をやめても、再ビルドに使い続けられます。ただし、StableBuild が保存できるのは、ミラー経由で一度でもプルしたイメージだけです。ミラーを通す前に上流から消えたイメージを、後から復元することはできません。ECR Public のイメージに依存しているビルドがあるなら、キャッシュするのは上流からまだ取得できる今のうちです。
 
-StableBuild は [Community プラン](/pricing)なら無料で使えます。今のビルドで使っている ECR Public のイメージで、ぜひ試してみてください。設定方法は [Docker ミラーのドキュメント](https://stablebuild.gitbook.io/ja/mirrors-and-caches/docker-mirror)で紹介しています。
+StableBuild は [Community プラン](/pricing)なら無料で使えます。今のビルドで使っている ECR Public のイメージで、ぜひ試してみてください。設定方法は [Docker ミラーのドキュメント](https://stablebuild.gitbook.io/stablebuild-docs/docs/ja/mirrors-and-caches/docker-mirror)で紹介しています。

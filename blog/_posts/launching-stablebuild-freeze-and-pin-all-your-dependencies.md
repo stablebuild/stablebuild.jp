@@ -107,4 +107,4 @@ StableBuild は、お客様のそうした課題を解消しました。もち�
 
 無料の Community プランでは、すべてのリポジトリとミラーにアクセスでき、トラフィック 1TB とファイルストレージ 30GB が含まれます。[料金ページ](/pricing)でプランをご確認のうえ、[ダッシュボード](https://dashboard.stablebuild.com/?lang=ja)からご登録ください。有料プランは月額199ドルからです。
 
-足りないものがあれば（別の OS でビルドしている、別の PPA が欲しいなど）、contact@stablebuild.jp までお気軽にご連絡ください。対応を追加します。StableBuild がどのようにビルドを安定させ、再現性を高めるのかをもっと詳しく知りたい方は、[ドキュメント](https://stablebuild.gitbook.io/ja)をご覧ください。
+足りないものがあれば（別の OS でビルドしている、別の PPA が欲しいなど）、contact@stablebuild.jp までお気軽にご連絡ください。対応を追加します。StableBuild がどのようにビルドを安定させ、再現性を高めるのかをもっと詳しく知りたい方は、[ドキュメント](https://stablebuild.gitbook.io/stablebuild-docs/docs/ja)をご覧ください。
