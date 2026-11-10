@@ -48,6 +48,15 @@
   </url>
 
   <url>
+    <loc>https://stablebuild.jp/blog/stablebuild-now-supports-hugging-face-for-reproducible-ai-model-downloads</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://stablebuild.jp/blog/stablebuild-now-supports-hugging-face-for-reproducible-ai-model-downloads"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.stablebuild.com/blog/stablebuild-now-supports-hugging-face-for-reproducible-ai-model-downloads"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.stablebuild.com/blog/stablebuild-now-supports-hugging-face-for-reproducible-ai-model-downloads"/>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
     <loc>https://stablebuild.jp/blog/preserving-build-dependencies-for-reproducible-builds</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://stablebuild.jp/blog/preserving-build-dependencies-for-reproducible-builds"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.stablebuild.com/blog/preserving-build-dependencies-for-reproducible-builds"/>
