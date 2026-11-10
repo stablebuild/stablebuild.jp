@@ -1,0 +1,370 @@
+<!DOCTYPE html><!-- Last Published: Sat Mar 07 2026 08:25:54 GMT+0000 (Coordinated Universal Time) --><html data-wf-domain="www.stablebuild.com" data-wf-page="6558cb02ceb72f12e74052e5" data-wf-site="6558cb01ceb72f12e7405275" lang="ja"><head><meta charset="utf-8"/>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TCKXS4CS');</script>
+<!-- End Google Tag Manager -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EHBYCM37R4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-EHBYCM37R4');
+</script>
+<title>再現可能なビルドのために依存関係を保持する - ステイブルビルド (StableBuild) - ブログ</title><meta name="keywords" content="ステイブルビルド, StableBuild, ソフトウェア依存性, ビルドの再現性, パッケージ管理, Docker, Python, Debian, Ubuntu"/><meta content="ステイブルビルド (StableBuild) ブログ｜同じソースコードだけでは、同じビルド結果を再現できるとは限りません。Docker タグの参照先が変わった場合でも、StableBuild に保存したコンテナイメージを使って元のバイナリを再現できることを、GNU Hello を使って検証します。" name="description"/><meta content="再現可能なビルドのために依存関係を保持する - ステイブルビルド (StableBuild) - ブログ" property="og:title"/><meta content="ステイブルビルド (StableBuild) ブログ｜同じソースコードだけでは、同じビルド結果を再現できるとは限りません。Docker タグの参照先が変わった場合でも、StableBuild に保存したコンテナイメージを使って元のバイナリを再現できることを、GNU Hello を使って検証します。" property="og:description"/><meta content="https://cdn.prod.website-files.com/6558cb02ceb72f12e74052f7/6af2679caed98dcf7eb6b9e7_frozen_gear.png" property="og:image"/><meta content="再現可能なビルドのために依存関係を保持する - ステイブルビルド (StableBuild) - ブログ" property="twitter:title"/><meta content="ステイブルビルド (StableBuild) ブログ｜同じソースコードだけでは、同じビルド結果を再現できるとは限りません。Docker タグの参照先が変わった場合でも、StableBuild に保存したコンテナイメージを使って元のバイナリを再現できることを、GNU Hello を使って検証します。" property="twitter:description"/><meta content="https://cdn.prod.website-files.com/6558cb02ceb72f12e74052f7/6af2679caed98dcf7eb6b9e7_frozen_gear.png" property="twitter:image"/><meta property="og:type" content="website"/><meta property="og:url" content="https://stablebuild.jp/blog/preserving-build-dependencies-for-reproducible-builds-2"/><meta content="summary_large_image" name="twitter:card"/><meta content="width=device-width, initial-scale=1" name="viewport"/><link href="https://cdn.prod.website-files.com/6558cb01ceb72f12e7405275/css/stablebuild.webflow.shared.8167631c5.css" rel="stylesheet" type="text/css" integrity="sha384-gWdjHFvTYanDSTjdpqj0feggSVbwaNXUPtYgT0aa+CFEhxZQNOnVyjMcFJDMpvaL" crossorigin="anonymous"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous"/><script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script><script type="text/javascript">WebFont.load({  google: {    families: ["Inter:300,400,500,600,700"]  }});</script><script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script><link href="https://cdn.prod.website-files.com/6558cb01ceb72f12e7405275/6579f710afbf2a1d2fcfc6fc_StableBuild%20icon%2032.png" rel="shortcut icon" type="image/x-icon"/><link href="https://cdn.prod.website-files.com/6558cb01ceb72f12e7405275/6579f716d8526ae38343c300_StableBuild%20icon%20256.png" rel="apple-touch-icon"/><link href="https://stablebuild.jp/blog/preserving-build-dependencies-for-reproducible-builds-2" rel="canonical"/>
+<link rel="alternate" hreflang="ja" href="https://stablebuild.jp/blog/preserving-build-dependencies-for-reproducible-builds-2"/>
+<link rel="alternate" hreflang="en" href="https://www.stablebuild.com/blog/preserving-build-dependencies-for-reproducible-builds"/>
+<link rel="alternate" hreflang="x-default" href="https://www.stablebuild.com/blog/preserving-build-dependencies-for-reproducible-builds"/><style>
+  .richtext-code-block {
+    font-size: 0.9rem;
+    border: solid 1px rgba(127, 127, 127, 0.2);
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.8);
+  }
+  
+  .rich-text img {
+    border-radius: 0;
+  }
+  
+  li:last-child {
+    margin-bottom: 0;
+  }
+</style><script type="text/javascript">window.__WEBFLOW_CURRENCY_SETTINGS = {"currencyCode":"USD","symbol":"$","decimal":".","fractionDigits":2,"group":",","template":"{{wf {\"path\":\"symbol\",\"type\":\"PlainText\"} }} {{wf {\"path\":\"amount\",\"type\":\"CommercePrice\"} }} {{wf {\"path\":\"currencyCode\",\"type\":\"PlainText\"} }}","hideDecimalForWholeNumbers":false};</script></head><body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TCKXS4CS"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) --><div class="page-wrapper overflow-hidden"><div data-w-id="c2ac369a-bb01-2411-3913-ecdf6c5877a2" data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="header-wrapper w-nav"><div class="container-default w-container"><div class="header-content-wrapper"><a href="/" class="header-logo-link w-nav-brand"><img src="https://cdn.prod.website-files.com/6558cb01ceb72f12e7405275/65788a469e26879c60cbba62_StableBuild%20logo.svg" loading="eager" width="200" height="Auto" alt="StableBuild logo" class="header-logo"/></a><div class="header-middle"><nav role="navigation" class="header-nav-menu-wrapper w-nav-menu"><ul role="list" class="header-nav-menu-list"><li class="header-nav-list-item middle"></li><li class="header-nav-list-item middle"><a href="https://docs.stablebuild.jp/" target="_blank" class="header-nav-link w-nav-link">ドキュメント</a></li><li class="header-nav-list-item middle"><a href="/features" class="header-nav-link w-nav-link">機能</a></li><li class="header-nav-list-item middle"><a href="/pricing" class="header-nav-link w-nav-link">料金</a></li><li class="header-nav-list-item middle"><a href="/blog" aria-current="page" class="header-nav-link w-nav-link w--current">ブログ</a></li><li class="header-nav-list-item show-in-tablet mg-bottom-16px"><a href="https://dashboard.stablebuild.com/?lang=ja" class="link-wrapper w-inline-block"><div class="line-rounded-icon link-icon-left"></div><div class="link-text">ログイン</div></a></li><li class="header-nav-list-item show-in-tablet"><a href="https://dashboard.stablebuild.com/?lang=ja" class="btn-primary small w-button">始める</a></li></ul></nav></div><div class="header-right-side"><div class="hamburger-menu-wrapper w-nav-button"><div class="hamburger-menu-bar top"></div><div class="hamburger-menu-bar bottom"></div></div><a href="https://dashboard.stablebuild.com/?lang=ja" class="link-wrapper header-link-hidde-on-tablet-copy w-inline-block"><div class="line-rounded-icon link-icon-left"></div><div class="link-text">ログイン</div></a><a href="https://dashboard.stablebuild.com/?lang=ja" class="btn-primary-2 hidden-on-mbl w-button">始める</a><a href="https://www.stablebuild.com/blog/preserving-build-dependencies-for-reproducible-builds" class="link-wrapper header-link-hidde-on-tablet-copy w-inline-block" style="margin-left: 12px; margin-right: 4px;"><div class="line-rounded-icon link-icon-left"></div><div class="link-text">English</div></a></div></div></div></div><div class="section top blog-post"><div class="container-default w-container"><div class="inner-container _864px center"><div class="text-center-shadow mg-bottom-56px"><div class="flex align-center justify-center mg-bottom-10px"><div class="color-neutral-800">記事</div><div class="divider-details"></div><div>2026年11月10日</div></div><h1 class="mg-bottom-0">再現可能なビルドのために依存関係を保持する</h1></div></div><div class="inner-container _976px center"><img src="https://cdn.prod.website-files.com/6558cb02ceb72f12e74052f7/6af2679caed98dcf7eb6b9e7_frozen_gear.png" alt="再現可能なビルドのために依存関係を保持する" class="border-radius-24px width-100"/></div></div></div><div class="section small position-relative---z-index-1"><div class="container-default w-container"><div class="inner-container _674px center"><div class="rich-text w-richtext"><p>ビルドを再現可能にするには、同じソースコードがあるだけでは足りません。ビルド環境も重要です。<a href="https://reproducible-builds.org/docs/perimeter/">Reproducible Builds プロジェクト</a>では、コンパイラ、ビルドツール、そのバージョンもビルド環境の一部として扱っています。</p>
+<p>コンテナを使えば、OS、コンパイラ、ビルドツール、依存関係など、ビルド環境の多くをまとめてパッケージ化できます。ただし、そのコンテナイメージ自体も、同じ内容のまま利用できなければなりません。Docker タグは変更可能です。タグが同じでも、その参照先のイメージが変わることがあります。</p>
+<p>最近の例が <code>traefik:v3.7.13</code> です。2026年9月、<a href="https://community.traefik.io/t/sha-hash-changed-for-traefik-image-v3-7-13-in-docker-hub/30253">タグが変わっていないにもかかわらず、Docker Hub 上のイメージダイジェストが変わったことに、あるユーザーが気づきました</a>。Traefik は、Alpine にセキュリティ修正が入った後、Docker が公式イメージを再ビルドしたと説明しました。Traefik のバイナリ自体は変わっていませんでしたが、その周囲にある OS レイヤーは変わっていました。</p>
+<p>つまり、再ビルドの前後で <code>traefik:v3.7.13</code> をプルすると、異なるコンテナイメージが返される可能性があります。ほとんどの利用者にとって、それは問題ではなく、むしろ望ましい場合もあります。しかし、あるマシンには以前のイメージが残っていて、別のマシンは再ビルド後のイメージをプルした場合、どちらも <code>traefik:v3.7.13</code> を指定しているのに、異なるコンテナ環境で動くことになります。その結果、あまりにもおなじみの「自分の PC では動くのに」という状況が起こり得ます。</p>
+<p>上流のイメージが変わるのを待つ代わりに、この状況を自分たちで再現してみます。小さなサンプルプログラムとして GNU Hello を使い、自分たちで管理するタグの参照先イメージを変更します。今回は違いを分かりやすくするため、GCC 12 を GCC 13 に置き換えます。実際には、イメージ内のシステムパッケージが更新されるといった、もっと小さな変化でも再現性が損なわれる可能性があります。</p>
+<p><strong>要約</strong></p>
+<p>Docker タグで公開した GCC 12 を使って GNU Hello をビルドし、そのイメージを StableBuild 経由でキャッシュしました。次に、Docker Hub 上で同じタグのイメージを GCC 13 に差し替えました。その後、Docker Hub からは GCC 13 が返されましたが、StableBuild からはキャッシュ済みの GCC 12 が返され続けました。StableBuild のイメージで GNU Hello をもう一度ビルドすると、元のバイナリをバイト単位で再現できました。</p>
+<div class="sb-gcc-diagram">
+  <style>
+    .sb-gcc-diagram {
+      font-family: system-ui, sans-serif;
+      color: #20252b;
+      max-width: 760px;
+      margin: 24px auto;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .sb-gcc-diagram * {
+      box-sizing: border-box;
+    }
+
+    .sb-gcc-step {
+      border: 1px solid #dce2e8;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .sb-gcc-heading {
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 18px;
+    }
+
+    .sb-gcc-flow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .sb-gcc-node {
+      flex: 1;
+      min-width: 0;
+      text-align: center;
+      background: #f3f6f8;
+      border: 1px solid #e0e5ea;
+      border-radius: 7px;
+      padding: 12px 8px;
+    }
+
+    .sb-gcc-node strong {
+      display: block;
+      font-weight: 700;
+    }
+
+    .sb-gcc-node small {
+      display: block;
+      color: #64748b;
+      margin-top: 4px;
+      font-size: 12px;
+    }
+
+    .sb-gcc-node code {
+      font-size: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .sb-gcc-arrow {
+      flex-shrink: 0;
+      color: #64748b;
+      font-size: 22px;
+    }
+
+    .sb-gcc-branches {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .sb-gcc-branch {
+      text-align: center;
+      border: 1px solid #e0e5ea;
+      border-radius: 8px;
+      padding: 14px;
+    }
+
+    .sb-gcc-branch .sb-gcc-node {
+      margin-bottom: 12px;
+    }
+
+    .sb-gcc-down {
+      display: block;
+      color: #64748b;
+      font-size: 22px;
+      margin: 6px 0;
+    }
+
+    .sb-gcc-binary {
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .sb-gcc-cached {
+      background: #eef8f1;
+      border-color: #b8dec4;
+    }
+
+    .sb-gcc-result {
+      border: 1px solid #b8dec4;
+      background: #f4faf5;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .sb-gcc-result-row {
+      font-size: 20px;
+      font-weight: 700;
+      margin: 8px 0;
+    }
+
+    .sb-gcc-result-row small {
+      display: block;
+      font-size: 12px;
+      font-weight: 400;
+      color: #526258;
+    }
+
+    @media (max-width: 520px) {
+      .sb-gcc-flow {
+        flex-direction: column;
+      }
+
+      .sb-gcc-flow .sb-gcc-node {
+        width: 100%;
+        flex: auto;
+      }
+
+      .sb-gcc-flow .sb-gcc-arrow {
+        transform: rotate(90deg);
+      }
+
+      .sb-gcc-branches {
+        gap: 8px;
+      }
+
+      .sb-gcc-branch {
+        padding: 8px;
+      }
+
+      .sb-gcc-branch .sb-gcc-node {
+        padding: 10px 4px;
+      }
+    }
+  </style>
+
+  <!-- Step 1 -->
+  <section class="sb-gcc-step">
+    <div class="sb-gcc-heading">1. 最初のビルド</div>
+    <div class="sb-gcc-flow">
+      <div class="sb-gcc-node">
+        <strong>Docker Hub</strong>
+        <code>testing-v1</code>
+        <small>GCC 12</small>
+      </div>
+      <span class="sb-gcc-arrow">→</span>
+      <div class="sb-gcc-node">
+        <strong>GNU Hello をビルド</strong>
+      </div>
+      <span class="sb-gcc-arrow">→</span>
+      <div class="sb-gcc-node">
+        <strong>バイナリ A</strong>
+        <small>元のバイナリ</small>
+      </div>
+    </div>
+  </section>
+
+  <!-- Step 2 -->
+  <section class="sb-gcc-step">
+    <div class="sb-gcc-heading">2. イメージをキャッシュ</div>
+    <div class="sb-gcc-flow">
+      <div class="sb-gcc-node">
+        <strong>Docker Hub</strong>
+        <code>testing-v1</code>
+        <small>GCC 12</small>
+      </div>
+      <span class="sb-gcc-arrow">→</span>
+      <div class="sb-gcc-node sb-gcc-cached">
+        <strong>StableBuild</strong>
+        <code>testing-v1</code>
+        <small>GCC 12 · キャッシュ済み</small>
+      </div>
+    </div>
+  </section>
+
+  <!-- Step 3 -->
+  <section class="sb-gcc-step">
+    <div class="sb-gcc-heading">
+      3. Docker Hub のイメージを差し替え
+    </div>
+    <div class="sb-gcc-branches">
+      <div class="sb-gcc-branch">
+        <div class="sb-gcc-node">
+          <strong>Docker Hub</strong>
+          <code>testing-v1</code>
+          <small>GCC 13 · 変更後</small>
+        </div>
+        <span class="sb-gcc-down">↓</span>
+        <div>GNU Hello をビルド</div>
+        <span class="sb-gcc-down">↓</span>
+        <div class="sb-gcc-binary">バイナリ B</div>
+      </div>
+
+      <div class="sb-gcc-branch">
+        <div class="sb-gcc-node sb-gcc-cached">
+          <strong>StableBuild</strong>
+          <code>testing-v1</code>
+          <small>GCC 12 · キャッシュ済み</small>
+        </div>
+        <span class="sb-gcc-down">↓</span>
+        <div>GNU Hello をビルド</div>
+        <span class="sb-gcc-down">↓</span>
+        <div class="sb-gcc-binary">バイナリ C</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Step 4 -->
+  <section class="sb-gcc-result">
+    <div class="sb-gcc-heading">4. バイナリを比較</div>
+    <div class="sb-gcc-result-row">
+      A = C ✓
+      <small>バイト単位で一致</small>
+    </div>
+    <div class="sb-gcc-result-row">
+      A ≠ B
+      <small>異なるバイナリ</small>
+    </div>
+  </section>
+</div>
+
+<p>次の4つの手順で検証します。</p>
+<ol>
+<li><strong>GCC 12 で基準となるビルドを作成する</strong></li>
+<li><strong>StableBuild 経由で GCC 12 をキャッシュする</strong></li>
+<li><strong><code>testing-v1</code> を GCC 13 に差し替える</strong></li>
+<li><strong>もう一度 <code>testing-v1</code> をプルして、ビルド結果を比較する</strong></li>
+</ol>
+<p>Docker タグは、最初から最後まで <code>testing-v1</code> のままです。変わるのは、Docker Hub でそのタグから配信されるイメージだけです。</p>
+<h2>1. GCC 12 で基準となるビルドを作成する</h2>
+<p>まず、GCC 12.5.0 を <code>tfryer/sb-hello-build-env:testing-v1</code> として公開しました。</p>
+<pre class="richtext-code-block"><code class="language-bash">docker pull --platform linux/amd64 gcc:12.5.0-bookworm
+docker tag gcc:12.5.0-bookworm tfryer/sb-hello-build-env:testing-v1
+docker push tfryer/sb-hello-build-env:testing-v1
+</code></pre>
+<p>次に、そのイメージを使い、新しく取得した GNU Hello 2.12.1 のソースを <code>./configure</code> と <code>make -j1</code> でコンパイルしました。</p>
+<p>生成された <code>original/hello</code> バイナリを、比較の基準とします。</p>
+<h2>2. StableBuild 経由で GCC 12 をキャッシュする</h2>
+<p>次に、同じイメージを <a href="https://stablebuild.gitbook.io/stablebuild-docs/docs/ja/mirrors-and-caches/docker-mirror">StableBuild の Docker ミラー</a>経由でプルしました。</p>
+<pre class="richtext-code-block"><code class="language-bash">docker pull --platform linux/amd64 &lt;stablebuild-mirror&gt;/tfryer/sb-hello-build-env:testing-v1
+</code></pre>
+<p>StableBuild は、その時点で Docker Hub が <code>testing-v1</code> として配信していた GCC 12 のイメージをキャッシュしました。</p>
+<h2>3. <code>testing-v1</code> を GCC 13 に差し替える</h2>
+<p>次に、同じ Docker Hub のタグで GCC 13.5.0 を公開しました。</p>
+<pre class="richtext-code-block"><code class="language-bash">docker pull --platform linux/amd64 gcc:13.5.0-bookworm
+docker tag gcc:13.5.0-bookworm tfryer/sb-hello-build-env:testing-v1
+docker push tfryer/sb-hello-build-env:testing-v1
+</code></pre>
+<p>これで、Docker Hub は <code>tfryer/sb-hello-build-env:testing-v1</code> として GCC 13 を配信するようになりました。</p>
+<h2>4. もう一度 <code>testing-v1</code> をプルして、ビルド結果を比較する</h2>
+<p>イメージを再びプルする前に、ローカルの Docker キャッシュを削除しました。これにより、ローカルに保存されているイメージが結果に影響するのを防ぎます。</p>
+<pre class="richtext-code-block"><code class="language-bash">docker system prune -af
+</code></pre>
+<p>次に、Docker Hub から直接、そして StableBuild 経由で、それぞれ <code>testing-v1</code> をプルしました。</p>
+<pre class="richtext-code-block"><code class="language-bash">docker pull --platform linux/amd64 tfryer/sb-hello-build-env:testing-v1
+docker pull --platform linux/amd64 &lt;stablebuild-mirror&gt;/tfryer/sb-hello-build-env:testing-v1
+</code></pre>
+<p>それぞれのイメージに入っているコンパイラのバージョンを確認しました。</p>
+<pre class="richtext-code-block"><code class="language-bash">docker run --rm --platform linux/amd64 tfryer/sb-hello-build-env:testing-v1 gcc --version
+docker run --rm --platform linux/amd64 &lt;stablebuild-mirror&gt;/tfryer/sb-hello-build-env:testing-v1 gcc --version
+</code></pre>
+<p>Docker Hub からは GCC 13.5.0 が返され、StableBuild からは GCC 12.5.0 が返されました。</p>
+<p><img alt="Docker Hub からは GCC 13.5.0、StableBuild からは GCC 12.5.0 が返された結果" src="https://cdn.prod.website-files.com/6558cb02ceb72f12e74052f7/6af25405ffacb8187efba776_82a84ee6.png" /></p>
+<p>次に、それぞれのイメージを使って、新しく取得した GNU Hello 2.12.1 のソースをコンパイルしました。どちらのビルドでも、基準となるビルドと同じソース、<code>./configure</code>、<code>make -j1</code> を使用しています。</p>
+<p>これで、3つのバイナリができました。</p>
+<table style="width: 100%; border-collapse: collapse; text-align: left; font-family: inherit; margin-bottom: 24px">
+<thead>
+<tr style="border-bottom: 2px solid #e2e8f0">
+<th style="padding: 12px 16px; font-weight: 600; white-space: nowrap">バイナリ</th>
+<th style="padding: 12px 16px; font-weight: 600">使用した Docker イメージ</th>
+</tr>
+</thead>
+<tbody>
+<tr style="border-bottom: 1px solid #edf2f7">
+<td style="padding: 12px 16px; white-space: nowrap"><code>original/hello</code></td>
+<td style="padding: 12px 16px"><code>testing-v1</code> が変わる前に Docker Hub から取得した GCC 12</td>
+</tr>
+<tr style="border-bottom: 1px solid #edf2f7">
+<td style="padding: 12px 16px; white-space: nowrap"><code>dockerhub/hello</code></td>
+<td style="padding: 12px 16px"><code>testing-v1</code> が変わった後に Docker Hub から取得した GCC 13</td>
+</tr>
+<tr>
+<td style="padding: 12px 16px; white-space: nowrap"><code>stablebuild/hello</code></td>
+<td style="padding: 12px 16px"><code>testing-v1</code> が変わる前に StableBuild がキャッシュした GCC 12</td>
+</tr>
+</tbody>
+</table>
+<p>それぞれの SHA-256 ハッシュを比較しました。</p>
+<pre class="richtext-code-block"><code class="language-bash">sha256sum original/hello dockerhub/hello stablebuild/hello
+</code></pre>
+<p><img alt="3つの GNU Hello バイナリの SHA-256 ハッシュを比較した結果" src="https://cdn.prod.website-files.com/6558cb02ceb72f12e74052f7/6af25405ffacb8187efba779_65fa14cd.png" /></p>
+<p><code>original/hello</code> と <code>stablebuild/hello</code> の SHA-256 ハッシュは同じでした。GCC 13 でビルドした <code>dockerhub/hello</code> のハッシュは異なっていました。</p>
+<p>StableBuild にキャッシュした GCC 12 のイメージを使うことで、元の GNU Hello バイナリをバイト単位で再現できました。</p>
+<h2>StableBuild が担う部分</h2>
+<p>今回の検証では、ビルド環境の一部分を固定しました。上流の Docker タグが変わった後も、元のビルドで使ったコンパイライメージを利用できる状態に保っています。</p>
+<p>何が変わったかをあらかじめ把握していたため、今回の検証では SHA-256 の比較だけで十分でした。GCC 12 から GCC 13 への変更は、意図的に分かりやすくしたものです。2つのビルドに違いがあり、その原因が明らかでない場合は、<a href="https://diffoscope.org/">diffoscope</a>を使って成果物を調べ、どこが異なるのかを特定できます。また、ビルド中に追加される非決定的なデータによって違いが生じることもあります。<a href="https://salsa.debian.org/reproducible-builds/strip-nondeterminism">strip-nondeterminism</a>を使うと、そのようなデータの一部を正規化できます。</p>
+<p>StableBuild が扱うのは、また別の部分です。上流で外部依存関係が変更または削除された後も、それらを利用できる状態に保ちます。</p>
+<p>今回の検証で、その依存関係にあたるのが GCC 12 の Docker イメージでした。<code>testing-v1</code> が変わる前に StableBuild がキャッシュしていたため、後から元の GNU Hello バイナリを再現できました。<code>traefik:v3.7.13</code> の再ビルドは、同じ問題が実際に起きた例です。タグは同じまま、イメージが変わりました。</p>
+<p>外部依存関係を利用できる状態に保つだけで、再現性に関するすべての問題を解決できるわけではありません。ただし、再現に必要なビルド環境の一部が、上流の変更によって失われるのを防ぐことはできます。</p>
+<p>同じ考え方は Docker 以外にも当てはまります。StableBuild は、<a href="https://stablebuild.gitbook.io/stablebuild-docs/docs/ja/mirrors-and-caches/os-package-registry-ubuntu-debian-alpine">Ubuntu、Debian、Alpine の過去のリポジトリ</a>、<a href="https://stablebuild.gitbook.io/stablebuild-docs/docs/ja/mirrors-and-caches/pypi-mirror">過去の状態を保持する PyPI ミラー</a>、<a href="https://stablebuild.gitbook.io/stablebuild-docs/docs/ja/mirrors-and-caches/huggingface-mirror">HuggingFace のミラー</a>、<a href="https://stablebuild.gitbook.io/stablebuild-docs/docs/ja/mirrors-and-caches/file-mirror">その他の外部ファイルを保存するキャッシュ</a>も提供しています。</p>
+<p><a href="/pricing">StableBuild の無料アカウントを作成</a>して、ビルドが依存している外部依存関係の保存を始めてみてください。</p></div></div></div></div><div class="section bg-neutral-200"><div class="container-default w-container"><div class="grid-2-columns mg-bottom-40px"><h2 class="mg-bottom-0">関連記事</h2><a id="w-node-_9b659ebc-5aa3-cf77-51b1-b0b01464a15d-e74052e5" data-w-id="9b659ebc-5aa3-cf77-51b1-b0b01464a15d" href="/blog" class="btn-secondary small w-button">すべての記事を見る<span class="line-rounded-icon link-icon-right"></span></a></div><div class="w-dyn-list"><div role="list" class="grid-2-columns gap-column-52px w-dyn-items"><div role="listitem" class="w-dyn-item"><a data-w-id="da61ef48-08c1-2197-1e75-8f0187163266" href="/blog/php2shell-what-the-critical-php-vulnerabilities-mean-for-reproducible-builds" class="card blog-link w-inline-block"><div id="w-node-da61ef48-08c1-2197-1e75-8f018716326d-e74052e5" class="blog-card-image-wrapper image-top"><img src="https://cdn.prod.website-files.com/6558cb02ceb72f12e74052f7/6ae82ac8d883432b3127b44d_Miniature%20Cardboard%20PHP%20Elephant.png" loading="eager" alt="PHP2Shell：PHP の重大な脆弱性と、再現可能なビルドの重要性" sizes="100vw" class="blog-card-image image-right"/></div><div class="blog-card-inner-content bottom"><div class="text-100 mg-bottom-10px">記事</div><h2 class="blog-card-title heading-h3-size">PHP2Shell：PHP の重大な脆弱性と、再現可能なビルドの重要性</h2><p class="blog-card-excerpt mg-bottom-24px">PHP の重大な脆弱性 PHP2Shell は、すでに実際の攻撃で悪用されています。修正が提供された PHP のバージョンと、緊急の再ビルドで PHP 以外の依存関係まで変わってしまう理由、過去の依存関係を保持して更新前後を比較する方法を解説します。</p><div class="color-neutral-800">2026年11月3日</div></div></a></div><div role="listitem" class="w-dyn-item"><a data-w-id="da61ef48-08c1-2197-1e75-8f0187163266" href="/blog/cache-amazon-ecr-public-images-with-stablebuild" class="card blog-link w-inline-block"><div id="w-node-da61ef48-08c1-2197-1e75-8f018716326d-e74052e5" class="blog-card-image-wrapper image-top"><img src="https://cdn.prod.website-files.com/6558cb02ceb72f12e74052f7/6ae01998666accf5390eaebc_ECR_icecube.png" loading="eager" alt="Amazon ECR Public のイメージを StableBuild でキャッシュする" sizes="100vw" class="blog-card-image image-right"/></div><div class="blog-card-inner-content bottom"><div class="text-100 mg-bottom-10px">記事</div><h2 class="blog-card-title heading-h3-size">Amazon ECR Public のイメージを StableBuild でキャッシュする</h2><p class="blog-card-excerpt mg-bottom-24px">StableBuild の Docker ミラーが Amazon ECR Public に対応しました。ECR Public のイメージを一度キャッシュしておけば、上流でタグが差し替えられたり削除されたりしても、同じイメージでビルドできます。</p><div class="color-neutral-800">2026年10月27日</div></div></a></div></div></div></div></div><footer class="footer-wrapper"><img src="https://cdn.prod.website-files.com/6558cb01ceb72f12e7405275/6558cb02ceb72f12e740542c_footer-bg-blur-codely-webflow-ecommerce-template.png" loading="eager" alt="" class="position-absolute footer-blur-bg"/><div class="container-default w-container"><div class="footer-top"><div class="w-layout-grid grid-footer"><div id="w-node-_555684ba-e4a1-9bcd-7e57-7429dc0b6976-dc0b6971"><a href="/" class="footer-logo-wrapper w-inline-block"><img src="https://cdn.prod.website-files.com/6558cb01ceb72f12e7405275/65788a46a63b5d293206aef5_StableBuild%20logo%20white.svg" alt="StableBuild logo" width="700" height="Auto" class="footer-logo"/></a><div class="footer-subscribe-card"><div class="mg-bottom-16px"><div class="text-300 bold color-neutral-100">Subscribe to our newsletter!</div></div><div class="w-form"><form id="wf-form-Footer-Subscribe" name="wf-form-Footer-Subscribe" data-name="Footer Subscribe" method="get" data-wf-page-id="6558cb02ceb72f12e74052e5" data-wf-element-id="555684ba-e4a1-9bcd-7e57-7429dc0b6980"><div name="Form Block"><div class="w-embed w-script"><script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/embed/v2.js"></script>
+<script>
+  hbspt.forms.create({
+    region: "na1",
+    portalId: "44550876",
+    formId: "46f06853-35f8-4716-95a2-019dde7c0ca4"
+  });
+</script></div></div></form><div class="success-message white-message w-form-done"><div class="flex"><div class="line-rounded-icon success-message-check"></div><div class="color-neutral-800 text-left">Thank you! Your submission has been received!</div></div></div><div class="error-message w-form-fail"><div>Oops! Something went wrong while submitting the form.</div></div></div></div></div><div class="footer-column"><div class="text-300 bold footer-title">ページ</div><div class="footer-menu-content _2-columns"><ul role="list" class="footer-list-wrapper left"><li class="footer-list-item"><a href="/" class="footer-link">ホーム</a></li><li class="footer-list-item"><a href="https://docs.stablebuild.jp/" class="footer-link">ドキュメント</a></li><li class="footer-list-item"><a href="/features" class="footer-link">機能</a></li><li class="footer-list-item"><a href="/pricing" class="footer-link">料金</a></li><li class="footer-list-item"></li><li class="footer-list-item"><a href="/blog" aria-current="page" class="footer-link w--current">ブログ</a></li><li class="footer-list-item"><a href="https://www.stablebuild.com/contact" class="footer-link">お問い合わせ</a></li><li class="footer-list-item"><a href="../../company.html" class="footer-link">会社概要</a></li><li class="footer-list-item"><a href="https://www.stablebuild.com/privacy-policy" class="footer-link">プライバシーポリシー</a></li><li class="footer-list-item"><a href="https://www.stablebuild.com/terms-of-service" class="footer-link">利用規約</a></li></ul><ul role="list" class="footer-list-wrapper right"><li class="footer-list-item"></li><li class="footer-list-item"></li><li class="footer-list-item"></li><li class="footer-list-item"></li><li class="footer-list-item"></li><li class="footer-list-item"></li></ul></div></div><div><div class="text-300 bold footer-title">フォロー</div><ul role="list" class="footer-list-wrapper"><li class="footer-list-item"></li><li class="footer-list-item"><a data-w-id="555684ba-e4a1-9bcd-7e57-7429dc0b69d5" href="https://x.com/StableBuildInc" class="social-media-link-wrapper w-inline-block"><div class="social-icon-square footer-icon"><div class="social-icon-font"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="15" height="15" fill="currentColor" style="display:block" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg></div></div><div class="social-media-link-text">X</div></a></li><li class="footer-list-item"></li><li class="footer-list-item"><a data-w-id="555684ba-e4a1-9bcd-7e57-7429dc0b69e3" href="https://www.linkedin.com/company/stablebuild" class="social-media-link-wrapper w-inline-block"><div class="social-icon-square footer-icon"><div class="social-icon-font"></div></div><div class="social-media-link-text">LinkedIn</div></a></li><li class="footer-list-item"></li></ul></div></div></div><div class="footer-bottom">Copyright © ステイブルビルド all rights reserved</div></div></footer></div><script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6558cb01ceb72f12e7405275" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script><script src="https://cdn.prod.website-files.com/6558cb01ceb72f12e7405275/js/webflow.schunk.1a807f015b216e46.js" type="text/javascript" integrity="sha384-oY4R8SfnVBTWnix6ULiWbZs/5tyRyxEiWcG+WrT3unnu5pmfsIYJEraZcyFVlvND" crossorigin="anonymous"></script><script src="https://cdn.prod.website-files.com/6558cb01ceb72f12e7405275/js/webflow.schunk.93928505e08870f3.js" type="text/javascript" integrity="sha384-GgIkh2YFhtT9oxrg8ySNdcGWewSzEC3e957/+UWheT8XnVouY4zDmYUjpSOfbOpi" crossorigin="anonymous"></script><script src="https://cdn.prod.website-files.com/6558cb01ceb72f12e7405275/js/webflow.e247ce65.b955b240cea1e54e.js" type="text/javascript" integrity="sha384-IXKCHh8vvVnXLfxRJBZnyxk0oesxYkJhav0+JO0Fft9BILm7ip2EDqMHJGv9iMcd" crossorigin="anonymous"></script><script src="https://cdn.prod.website-files.com/6558cb01ceb72f12e7405275%2F6470f5217e03b0faa8a404de%2F65689bf3caefefd5e80cc2fd%2Fhs_trackcode_44550876-1.0.6.js" type="text/javascript"></script><script src="https://hubspotonwebflow.com/assets/js/form-124.js" type="text/javascript" integrity="sha384-bjyNIOqAKScdeQ3THsDZLGagNN56B4X2Auu9YZIGu+tA/PlggMk4jbWruG/P6zYj" crossorigin="anonymous"></script></body></html>
