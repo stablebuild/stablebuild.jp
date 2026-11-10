@@ -48,8 +48,8 @@
   </url>
 
   <url>
-    <loc>https://stablebuild.jp/blog/preserving-build-dependencies-for-reproducible-builds-2</loc>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://stablebuild.jp/blog/preserving-build-dependencies-for-reproducible-builds-2"/>
+    <loc>https://stablebuild.jp/blog/preserving-build-dependencies-for-reproducible-builds</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://stablebuild.jp/blog/preserving-build-dependencies-for-reproducible-builds"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.stablebuild.com/blog/preserving-build-dependencies-for-reproducible-builds"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.stablebuild.com/blog/preserving-build-dependencies-for-reproducible-builds"/>
     <changefreq>yearly</changefreq>
