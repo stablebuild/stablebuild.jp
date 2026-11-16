@@ -3,6 +3,8 @@ title: 数年後も IoT ソフトウェアを再ビルドするために：長�
 date: 2026-11-16
 category: 記事
 description: IoT デバイスは、ソフトウェアを開発した環境が変わった後も長く使われ続けます。数年後のファームウェア再ビルドに、ソースコードだけでは足りない理由と、コンパイラや OS パッケージ、SDK などの依存関係を保持して長期保守に備える方法を紹介します。
+hero: https://cdn.prod.website-files.com/6558cb02ceb72f12e74052f7/6afa8b658690146f2933574e_Kraft%20Electronics%20Kit%20with%20PCB%20and%20Cards.png
+en_url: https://www.stablebuild.com/blog/rebuilding-software-years-later-preserving-dependencies-for-long-lived-iot-devices
 ---
 
 IoT デバイスは、そのソフトウェアを開発した環境が変わった後も、長く使われ続けることがあります。
