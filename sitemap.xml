@@ -48,6 +48,15 @@
   </url>
 
   <url>
+    <loc>https://stablebuild.jp/blog/onnx-runtime-disappeared-from-github-without-warning</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://stablebuild.jp/blog/onnx-runtime-disappeared-from-github-without-warning"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.stablebuild.com/blog/onnx-runtime-disappeared-from-github-without-warning"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.stablebuild.com/blog/onnx-runtime-disappeared-from-github-without-warning"/>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
     <loc>https://stablebuild.jp/blog/rebuilding-software-years-later-preserving-dependencies-for-long-lived-iot-devices</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://stablebuild.jp/blog/rebuilding-software-years-later-preserving-dependencies-for-long-lived-iot-devices"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.stablebuild.com/blog/rebuilding-software-years-later-preserving-dependencies-for-long-lived-iot-devices"/>
