@@ -48,6 +48,14 @@
   </url>
 
   <url>
+    <loc>https://stablebuild.jp/blog/circleci-webinar-pin-dependencies-by-date</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://stablebuild.jp/blog/circleci-webinar-pin-dependencies-by-date"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://stablebuild.jp/blog/circleci-webinar-pin-dependencies-by-date"/>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
     <loc>https://stablebuild.jp/blog/onnx-runtime-disappeared-from-github-without-warning</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://stablebuild.jp/blog/onnx-runtime-disappeared-from-github-without-warning"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.stablebuild.com/blog/onnx-runtime-disappeared-from-github-without-warning"/>
