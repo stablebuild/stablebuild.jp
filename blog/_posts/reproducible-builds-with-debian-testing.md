@@ -1,39 +1,33 @@
 ---
-title: Debian Testing を使った再現可能なビルド
+title: Debian Testing でビルドの再現性を保つ
 date: 2026-11-26
 category: 記事
-description: Debian Testing では新しいパッケージを利用できますが、リポジトリの内容は継続的に変化します。StableBuild で Docker ベースイメージと APT リポジトリを特定の日時に固定し、同じ依存関係でビルドを再現する方法を紹介します。
+description: StableBuild が Debian Testing に対応しました。日々更新される Testing の APT リポジトリを日時で固定し、新しいパッケージを使いながら、同じ依存関係でビルドを再現する方法を紹介します。
 hero: https://cdn.prod.website-files.com/6558cb02ceb72f12e74052f7/6b07b5787575da62ef9825f0_debian_icecube_2.png
 en_url: https://www.stablebuild.com/blog/reproducible-builds-with-debian-testing
 ---
 
-Debian Stable には、必要なバージョンのパッケージがないことがあります。
+Debian Stable では、必要なバージョンのパッケージが手に入らないことがあります。そうしたときに便利なのが Debian Testing ですが、リポジトリの中身が日々入れ替わるため、同じ Dockerfile でもビルドするたびに違う依存関係が入ってしまいます。お客様からの要望を受けて、StableBuild ではこの Debian Testing も日時で固定できるようにしました。
 
-Python を例にしてみましょう。Debian 13（Trixie）には Python 3.13 が含まれていますが、Debian Testing では、[テンプレート文字列リテラル（t-string）](https://docs.python.org/3.14/whatsnew/3.14.html#template-string-literals)などの機能が追加された Python 3.14 をすでに利用できます。
+## Debian Testing を使う理由
 
-新しいバージョンの Python だけを個別にインストールすることもできますが、Debian Testing を使えば、より新しいパッケージで構成されたディストリビューション全体を利用できます。新しいシステムライブラリやツールチェーンを使ってソフトウェアを開発する場合や、次期 Debian リリースとの互換性をテストする場合には、特に便利です。
+たとえば Python の場合、Debian 13（Trixie）に含まれているのは Python 3.13 ですが、Debian Testing ではすでに Python 3.14 が使えます。3.14 では[テンプレート文字列リテラル（t-string）](https://docs.python.org/3.14/whatsnew/3.14.html#template-string-literals)などの機能が追加されています。
 
-しかし、ビルドが動くようになった後も、同じ依存関係一式を使い続けたい場合はどうすればよいでしょうか。
+Python だけなら新しいバージョンを個別にインストールする手もありますが、Testing ならシステムライブラリやツールチェーンまで含めて、ディストリビューション全体が新しくなります。新しいライブラリを前提にソフトウェアを開発するときや、次の Debian リリースとの互換性を確かめたいときには特に便利です。
 
-## 変化し続けるリポジトリを使ったビルド
+## 日々変わるリポジトリの問題
 
-Debian Testing は、Debian の次期安定版が形作られる場所です。パッケージは、依存関係、テストの失敗、リリースクリティカルバグに関するチェックを通過した後、[Unstable から Testing に移行します](https://www.debian.org/devel/testing)。
+Debian Testing は、次の Debian 安定版に向けてパッケージが集められるディストリビューションです。Unstable にアップロードされたパッケージは、依存関係が満たされているか、テストに失敗していないか、リリースクリティカルバグがないかといったチェックを通ると、[Testing に移行します](https://www.debian.org/devel/testing)。Stable と違って上流の新しいバージョンが次々に入ってくるので、同じ `apt install` でも、1週間後には別のバージョンがインストールされるかもしれません。
 
-Debian Stable とは異なり、Testing には上流の新しいバージョンのパッケージが定期的に取り込まれます。そのため、1週間後に同じ `apt install` コマンドを実行すると、異なる依存関係がインストールされる可能性があります。
+Dockerfile で各パッケージのバージョンを指定しても、そのパッケージが依存するパッケージまでは固定できません。仮にすべてのバージョンを書き出したとしても、新しいバージョンに置き換わった時点で、古いバージョンはリポジトリから消えてしまうことがあります。
 
-Dockerfile で個々のパッケージのバージョンを指定することはできますが、それらのパッケージにも依存関係があります。すべてのバージョンを固定したとしても、新しいバージョンに置き換えられると、古いバージョンはリポジトリから消えることがあります。
+特定のコンパイラやライブラリ、ランタイムが必要で Testing を選んだのであって、CI を実行するたびに関係のない依存関係まで変わってほしいわけではないはずです。新しいパッケージを使いたいことと、依存関係が変わり続けることは、本来別の話です。
 
-新しい依存関係が必要なことと、依存関係が継続的に変わることは別の問題です。
+## リポジトリ全体の日時固定
 
-特定のコンパイラ、ライブラリ、ランタイムが必要で Debian Testing を選んだのであれば、CI パイプラインを実行するたびに、関係のない依存関係まで変わる必要はありません。
+StableBuild は、ほかの Debian リポジトリと同じように Testing も毎日ミラーし、リポジトリのインデックスとパッケージ本体の両方を保存しています。そのため、パッケージを1つずつバージョン指定しなくても、リポジトリ全体をある日時の状態に固定できます。
 
-## StableBuild で Debian Testing を固定する
-
-StableBuild は、お客様からの要望を受けて、Debian Testing に対応しました。
-
-ほかの Debian リポジトリと同様に、Testing も毎日ミラーし、リポジトリのインデックスとパッケージ本体の両方を保存します。個々のパッケージのバージョンを指定する代わりに、リポジトリ全体を特定の日時に固定できます。
-
-StableBuild が保存した3つの Debian Testing スナップショットでは、`curl` のバージョンが次のように変化しました。
+StableBuild に保存されている Debian Testing のスナップショット3つで `curl` のバージョンを比べると、次のようになっていました。
 
 | APT スナップショット | `curl` のバージョン |
 | --- | --- |
@@ -41,13 +35,13 @@ StableBuild が保存した3つの Debian Testing スナップショットでは
 | 2026年11月13日 | `8.22.0-1` |
 | 2026年11月24日 | `8.23.0-2` |
 
-APT リポジトリを11月11日のスナップショットに固定すれば、Debian Testing がその後も更新される一方で、ビルドでは同じバージョンのパッケージを引き続き利用できます。
+APT リポジトリを11月11日のスナップショットに固定しておけば、Debian Testing 側が更新されても、ビルドでは同じバージョンを使い続けられます。
 
-依存関係を更新する準備ができたら、固定する日時を変更してテストを実行し、その変更をほかのコードと一緒にコミットできます。更新によって問題が発生した場合は、以前のスナップショットに戻せます。
+依存関係を更新するときは、固定日時を進めてテストを実行し、その変更をほかのコードと一緒にコミットします。更新で問題が起きた場合は、以前のスナップショットに戻せます。
 
-## はじめ方
+## 使い方
 
-StableBuild で Debian Testing の Docker ベースイメージと APT リポジトリの両方を固定する方法を示す、小さな[サンプルリポジトリ](https://github.com/stablebuild/example-debian-testing)を用意しました。
+Debian Testing の Docker ベースイメージと APT リポジトリを StableBuild で固定する[サンプルリポジトリ](https://github.com/stablebuild/example-debian-testing)を用意しました。Dockerfile は次のとおりです。
 
 ```dockerfile
 ARG SB_API_KEY=stablebuild-pub-debtesting-ex
@@ -63,18 +57,16 @@ RUN bash /opt/sb-apt.sh load-apt-sources debian-testing
 RUN apt update && apt install -y curl
 ```
 
-すでに StableBuild で Debian リポジトリを固定している場合は、見慣れた設定でしょう。主な違いは、`sb-apt.sh` に `debian` ではなく `debian-testing` を渡すことです。
+StableBuild ですでに Debian リポジトリを固定している方には、見覚えのある設定だと思います。主な違いは、`sb-apt.sh` に `debian` ではなく `debian-testing` を渡す点です。
 
-`APT_PIN_DATE` で APT スナップショットを選択します。ベースイメージは別に固定します。APT でパッケージをインストールする方法を変える必要はありません。
+APT のスナップショットは `APT_PIN_DATE` で選び、ベースイメージは `FROM` のタグ（`testing-20261104`）で別に固定します。`apt install` の書き方を変える必要はありません。
 
 ## Debian パッケージ以外の依存関係
 
-Debian は、[snapshot.debian.org](https://snapshot.debian.org/) で過去のリポジトリのスナップショットをすでに提供しています。Debian リポジトリの状態だけを保存できればよい場合は、これだけで十分かもしれません。
+過去の Debian リポジトリの状態であれば、Debian 自身も [snapshot.debian.org](https://snapshot.debian.org/) で提供しています。ただ、snapshot.debian.org は不安定になることがあります。
 
-しかし、一般的な Docker ビルドは、Debian パッケージ以外にも依存していることがよくあります。Docker Hub からベースイメージをプルしたり、PyPI から Python パッケージをインストールしたり、サードパーティの APT リポジトリを利用したり、GitHub からファイルを直接ダウンロードしたりする場合があります。
+それに、実際の Docker ビルドが依存しているのは Debian のパッケージだけではありません。Docker Hub からベースイメージをプルし、PyPI から Python パッケージをインストールし、サードパーティの APT リポジトリを追加し、GitHub から直接ファイルをダウンロードする、といったことはよくあります。
 
-StableBuild では、これらすべてを同じサービスで保存できます。また、リポジトリごとに別々の履歴ミラーを管理する代わりに、OS パッケージと StableBuild が対応しているサードパーティの APT リポジトリを、1つの日時でまとめて固定できます。
+StableBuild なら、これらをすべて1つのサービスで保存できます。リポジトリごとに過去の状態を別々に管理しなくても、OS のパッケージと、StableBuild が対応しているサードパーティの APT リポジトリを、1つの日時でまとめて固定できます。Debian Testing も、今回からこの仕組みで使えるようになりました。
 
-Debian Testing も、同じ仕組みで利用できるようになりました。
-
-この機能は、StableBuild の[すべての有料プラン](/pricing)で利用できます。[StableBuild ダッシュボード](https://dashboard.stablebuild.com/)で APT リポジトリを設定する際に、Debian Testing を選択してください。
+Debian Testing は StableBuild の[すべての有料プラン](/pricing)で利用できます。[ダッシュボード](https://dashboard.stablebuild.com/?lang=ja)で APT リポジトリを設定するときに、Debian Testing を選んでください。
