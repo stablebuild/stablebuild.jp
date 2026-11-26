@@ -6,7 +6,7 @@ description: CircleCI のオンラインセミナー「詳解CircleCI #03」に�
 hero: /blog/images/circleci-webinar-pin-dependencies-by-date.png
 ---
 
-11月24日に CircleCI が開催したオンラインセミナー「詳解CircleCI」の第3回「CIでやるべきセキュリティ対策 ― 固定する・検査する・止める・絞る」に、StableBuild CEO の木本真理究が登壇しました。StableBuild のパートでは「固定する」を取り上げ、Dockerfile の依存関係を日付で固定して、ビルドが壊れるのを防ぎ、悪意のある版を取り込まないようにする方法を、CircleCI でのデモとあわせて紹介しました。録画は CircleCI の YouTube チャンネルで公開されています。
+11月24日に CircleCI が開催したオンラインセミナー「詳解CircleCI」の第3回「[CIでやるべきセキュリティ対策 ― 固定する・検査する・止める・絞る](https://www2.circleci.com/wbn_shokai_circleci_03_security-measures)」に、StableBuild CEO の木本真理究が登壇しました。StableBuild のパートでは「固定する」を取り上げ、Dockerfile の依存関係を日付で固定して、ビルドが壊れるのを防ぎ、悪意のある版を取り込まないようにする方法を、CircleCI でのデモとあわせて紹介しました。録画は CircleCI の YouTube チャンネルで公開されています。
 
 <div style="position: relative; padding-top: 56.25%; margin-bottom: 24px"><iframe src="https://www.youtube-nocookie.com/embed/EAHvy3oEY7c" title="CIでやるべきセキュリティ対策 固定する・検査する・止める・絞る ＜詳解CircleCI #03＞" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; border-radius: 16px" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
 
