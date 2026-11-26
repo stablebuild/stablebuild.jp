@@ -48,6 +48,15 @@
   </url>
 
   <url>
+    <loc>https://stablebuild.jp/blog/reproducible-builds-with-debian-testing</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://stablebuild.jp/blog/reproducible-builds-with-debian-testing"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.stablebuild.com/blog/reproducible-builds-with-debian-testing"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.stablebuild.com/blog/reproducible-builds-with-debian-testing"/>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
     <loc>https://stablebuild.jp/blog/circleci-webinar-pin-dependencies-by-date</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://stablebuild.jp/blog/circleci-webinar-pin-dependencies-by-date"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://stablebuild.jp/blog/circleci-webinar-pin-dependencies-by-date"/>
